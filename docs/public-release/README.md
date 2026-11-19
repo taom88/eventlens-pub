@@ -5,6 +5,10 @@ for inspecting the architecture and running the bundled synthetic demo. It is no
 a completed production research service, and the repository does not publish
 investment recommendations.
 
+New readers can start with the [EventLens guide](../guide/README.md), which
+explains the product model, design decisions, current implementation boundary,
+and repository map.
+
 ## Supported smoke path
 
 Install the package with Python 3.11 or later and run:

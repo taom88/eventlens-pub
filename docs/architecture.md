@@ -1,133 +1,181 @@
-# Architecture
+# Current architecture
 
-## Context
+This page describes the current public source preview, not a proposed target
+architecture. EventLens is organized around one product-session service, typed
+evidence and artifact contracts, deterministic domain code, and explicit
+adapters at the edges.
 
-EventLens is a separate product from Vibe-Trading. It treats Vibe-Trading as an
-external research engine whose output is useful but non-canonical until
-attributed and validated. EventLens owns the analyst workflow, financial
-calculations, session state, artifacts, and audit trail.
+## System boundary
 
-## Dependency direction
+EventLens owns the event-analysis workflow: request and session identity,
+cutoff checks, prior-context eligibility, canonical calculations, schema and
+report validation, persistence transitions, artifact checksums, and rendering.
+Providers and external reasoning tools supply inputs or semantic proposals;
+they do not own EventLens state or canonical calculations.
 
-```text
-Streamlit / CLI
-      |
-Product-session service
-      |
-Repository transitions -- Agent export/import
-      |
-Domain analytics
-      |
-Provider protocols ---- Optional Vibe evidence protocol
-      |                         |
-fixtures / live data     allowlisted MCP transport
-      |
-Artifact, repository, and audit stores
+```mermaid
+flowchart TD
+    U[Analyst] --> C[CLI]
+    U --> W[Streamlit]
+    C --> PS[ProductSessionFacade]
+    W --> PS
+    PS --> FV[Fixture replay]
+    PS --> EB[Validated ResearchEvidenceBundle]
+    LC[Manifest-gated live collection] --> PR[Providers and source receipts]
+    PR --> EB
+    EB --> G[Identity, cutoff, prior-context, rights, and schema gates]
+    G --> Q[Deterministic domain and quant calculations]
+    Q --> MR[ResearchMemoryRepository revisions]
+    Q --> AR[Checksummed artifacts]
+    Q --> HB[Immutable agent handoff bundle]
+    HB --> PAUSE[awaiting_external_agent by default]
+    HB --> DS[DeepSeek only when explicitly selected]
+    PAUSE --> IMP[Explicit report import]
+    DS --> IMP
+    IMP --> VAL[Shared deterministic validator]
+    VAL --> MR
 ```
 
-Outer layers may depend on inner protocols and domain types. Domain analytics
-must not import Streamlit, a model SDK, a market-data vendor, or
-Vibe-Trading.
+The diagram separates responsibilities; not every route is an automatic
+end-to-end live pipeline. In particular, the collector and the research
+session have explicit input/configuration boundaries. The synthetic demo uses
+fixtures, not live collection.
 
-## Proposed package boundaries
+## Runtime layers
 
-```text
-src/eventlens/
-  app/                 use cases and CLI commands
-  graph/               read-only legacy state models for artifact compatibility
-  domain/              event logic and deterministic calculations
-  agents/              prompts, structured interpretation, claim validation
-  research_engines/    optional allowlisted Vibe evidence adapter and schemas
-  providers/           source protocols, fixtures, live/local adapters
-  artifacts/           schemas, lineage, rendering, atomic store
-  persistence/         durable records and append-only audit
-  evaluation/          replay and agent-quality evaluation
-  config/              validated settings
-```
+### Entry points
 
-## Canonical data rules
+- `src/eventlens/app/commands.py` parses CLI options and delegates work.
+- `src/eventlens/web/streamlit_app.py` and related web modules present
+  sessions, status, artifacts, and analyst actions.
+- Both use `ProductSessionFacade` for product-session creation, reload, and
+  transitions. Presentation adapters do not own canonical calculations or
+  independently write product status.
 
-1. Canonical numeric metrics originate only from versioned deterministic
-   functions.
-2. Raw provider and Vibe-Trading payloads are stored by reference and checksum,
-   not duplicated throughout product-session records.
-3. Every normalized datum carries origin, retrieval time, coverage, request
-   parameters, warnings, and raw reference/checksum.
-4. `null` plus a reason represents missing data; invented substitutes are
-   invalid.
-5. Switching to a proxy or degraded mode is an explicit, audited decision.
-6. The original locked hypothesis is immutable.
-7. Post-lock annotations and archived-session annotations are separate versions.
+### Product-session service
 
-## External-agent routing and packet ownership
+`src/eventlens/web/product_session.py` provides the repository-backed session
+boundary. It handles fixture and live modes, idempotency, status revisions,
+artifact references, resume, and explicit handoff/report transitions. The
+repository revision is authoritative; local JSON is a checked mirror or
+legacy import source.
 
-The accepted R1 contract is recorded in
-[`decisions/0005-external-agent-routing-and-packet-contracts.md`](decisions/0005-external-agent-routing-and-packet-contracts.md).
-In summary:
+The fixture mode executes the bundled D0 replay. The live mode accepts a
+configured evidence source and returns an explicit ready or blocked state. A
+provider-backed collector must first satisfy its own event-manifest,
+cutoff, rights, budget, and authorization requirements.
 
-- `EVENTLENS_EXTERNAL_AGENT_ENABLED=true` selects an export, durable pause, and
-  explicit import route. EventLens must not invoke an external agent.
-- `EVENTLENS_EXTERNAL_AGENT_ENABLED=false` selects DeepSeek explicitly. It uses
-  the same bundle, report schema, and import validator; it is not a fallback.
-- EventLens owns canonical facts, calculations, state transitions, validation,
-  artifact checksums, and the final `DecisionPacket`.
-- An `ExternalAgentReport` is a semantic proposal. It cannot become a
-  `DecisionPacket`, mutate the exported facts, or advance workflow state until
-  deterministic import validation succeeds.
-- Product-session records retain immutable artifact IDs/checksums and status,
-  not raw article bodies or an unrestricted agent prompt/completion.
+### Evidence and deterministic domain
 
-## Workflow invariants
+`src/eventlens/product/research_evidence.py` defines the immutable
+`ResearchEvidenceBundle` and validates its structure. It binds target event,
+company context, ontology coverage, prior cards, optional evidence components,
+source receipts, missingness, and a checksum. It rejects inconsistent
+identities, duplicate/dangling receipts, cards that are not approved and
+cutoff-eligible, and evidence that is not strictly before the target cutoff.
 
-- Post-event data is inaccessible to pre-event nodes until hypothesis lock.
-- All required approvals are durable repository transitions, not transient UI state.
-- Commands that call external systems or write artifacts are idempotent.
-- State contains artifact references rather than transcript/options payloads.
-- Archive is append-only and terminal for the canonical session record.
-- Vibe-Trading warnings and failures remain visible downstream.
+`src/eventlens/domain/` and `src/eventlens/quant/` own deterministic facts and
+financial calculations. Their types retain units, fiscal periods, basis,
+sample information, and reasons for unavailable or incomparable results.
+Provider adapters do not calculate a canonical result by writing prose.
 
-## Storage plan
+`src/eventlens/context_cards/` owns historical context card models, builders,
+validation, quality rules, and readable rendering. A card’s identity,
+knowledge cutoff, status, provenance, and checksum travel with the content.
 
-Use a filesystem store for the MVP:
+### External reasoning boundary
 
-```text
-artifacts/<session-id>/
-  session_manifest.json
-  event_packet.json
-  hypothesis_snapshot.json
-  pre_earnings_brief.json
-  pre_earnings_brief.md
-  volatility_setup.json
-  transcript_delta.json
-  post_earnings_review.json
-  post_earnings_review.md
-  validation_report.json
-  validation_report.md
-  audit_log.jsonl
-  raw/
-```
+`src/eventlens/agents/` owns external bundle/report types, route selection,
+validation, and handoff operations. The default route exports an immutable
+bundle, writes `awaiting_external_agent`, and stops for human operation. If the
+operator explicitly selects the direct DeepSeek route, it uses the same report
+validator. A validation or service failure does not trigger an alternate
+route.
 
-Writes use a temporary file, validation, `fsync` where appropriate, and atomic
-rename. Product state uses immutable `ResearchMemoryRepository` revisions;
-integration tests reopen sessions in a fresh service/process to verify restart
-behavior.
+`src/eventlens/research_engines/` contains the optional Vibe-Trading evidence
+adapter. It is a bounded evidence source; it does not own product-session
+status or rewrite EventLens metrics.
 
-## Security and privacy baseline
+### Persistence and artifacts
 
-- Bind local services to loopback by default.
-- Never commit credentials or raw provider tokens.
-- Redact secrets from commands, logs, errors, and manifests.
-- Treat transcript and research text as untrusted input to model prompts.
-- Disable arbitrary generated-code execution in the product path.
-- Allowlist Vibe-Trading executable, transport, data sources, and output roots.
-- Record model/provider identifiers but define an explicit policy before storing
-  full prompts or completions.
+`src/eventlens/memory/` and `src/eventlens/persistence/` define the repository
+and record boundaries. Demo/test defaults use local SQLite. A deployment
+owner configures its own Supabase project for durable typed records. Large
+bundle/report bodies are stored as checksummed artifacts in a private
+artifact directory, not duplicated into every session record. A second
+machine needs access to that private artifact store as well as the typed
+records; shared object storage is not included in this preview.
 
-## Technology decisions still requiring spikes
+`src/eventlens/artifacts/` provides artifact envelopes, integrity checks,
+fixture replay helpers, and render/export support. JSON is canonical for
+machine-readable session and report records; Markdown and Streamlit are
+readable views of those records.
 
-- Trading-calendar library and earnings timing edge cases.
-- Dataframe library for canonical fixture serialization.
-- Whether a future Vibe REST/SSE transport offers better attributed research
-  lineage than the restricted MCP core call.
-- Production model choice between the implemented DeepSeek and Moonshot/Kimi
-  adapters; fixture replay remains independent of this choice.
+## Data flow and authority
+
+For one pre-event analysis:
+
+1. A researcher submits an event research request through the CLI or interface.
+2. The session service resolves a fixture or validates the configured evidence
+   input. A missing or ineligible prerequisite becomes a typed blocked state.
+3. The service checks event identity, cutoff, prior-card eligibility, receipts,
+   rights metadata, and schema coherence.
+4. Deterministic code calculates canonical metrics and retains their basis,
+   source references, and missingness.
+5. The session revision records status and immutable artifact references.
+6. By default, EventLens exports a typed agent bundle and pauses. A human
+   returns a report for explicit import.
+7. The same validator checks bundle binding, citation allowlists, cutoff,
+   canonical facts, report schema, and policy fields before the next revision.
+
+Authority is intentionally split:
+
+| Concern | Owner |
+|---|---|
+| Event/cutoff identity, eligibility, timestamps, status, checksums | EventLens deterministic code |
+| Canonical financial metrics and units | EventLens deterministic domain/quant code |
+| Source retrieval and source-provided facts | Provider adapter, retained with provenance and limitations |
+| Materiality, interpretation, narrative, uncertainty | Analyst or bounded agent proposal, subject to review and validation |
+| Product-session status and revision | ProductSessionFacade and repository transition contract |
+| Human acceptance and any real-world decision | Operator/user |
+
+Model output cannot change canonical facts or transition state until imported
+through the validator. A source citation does not prove a claim is correct; a
+checksum proves byte identity, not data rights or semantic accuracy.
+
+## Boundaries that must remain visible
+
+- Pre-event evidence and prior context are cutoff-gated; post-event outcomes
+  belong to separate retrospective workflows.
+- Missingness, incomparable units, degraded data, and provider warnings are
+  represented explicitly; unsupported values are not silently substituted.
+- Provider data rights and retention rules accompany the receipt and remain
+  the operator’s responsibility.
+- The external agent is not automatically launched. There is no silent route
+  fallback.
+- The system performs research workflow operations; no broker or execution
+  integration is part of this public preview.
+- Learning/evaluation structures are offline/shadow. They do not self-modify
+  prompts, policy, or live routing.
+- The complete live research, review, QA, outcome, and publication lifecycle
+  is not implemented as a turnkey service.
+
+## Compatibility code
+
+`src/eventlens/graph/models.py` remains for the compatibility of stored records
+and schemas that still reference graph-shaped model types. The active public
+lifecycle does not run a legacy graph engine, graph checkpoint writer, or
+graph-specific UI. New lifecycle behavior belongs in the product-session
+service and its repository transitions.
+
+## How to continue exploring
+
+- Use the [repository map](guide/repository-map.md) to find the owner of a
+  behavior.
+- Use the [product model](guide/product-model.md) to trace evidence and
+  handoffs.
+- Use [product decisions](guide/product-decisions.md) for rationale.
+- Use [implementation status](guide/implementation-status.md) to distinguish
+  existing components from completed product paths.
+- Read [agent runtime](agent-runtime.md), [storage](storage.md), and [web
+  interface](web-interface.md) for operator-level detail.
