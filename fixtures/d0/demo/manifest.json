@@ -1,0 +1,32 @@
+{
+  "baseline_file": "baseline.json",
+  "bundle_file": "bundle.json",
+  "card_files": [
+    "cards/demo-d0-q2-2025.json",
+    "cards/demo-d0-q3-2025.json",
+    "cards/demo-d0-q4-2025.json"
+  ],
+  "checksums": {
+    "baseline.json": "5ea4967bd4fc0c6ccbf5deb7549e70c9899f3f56ee584ced7bd3fff72adfddc5",
+    "bundle.json": "c577c3a62d605d71ca281090e5b789b4dfeacbaf3dc0a905c0101a016308958c",
+    "cards/demo-d0-q2-2025.json": "0eb760fa2ac25c4cbe7ddb9e57e3e2358f18dc343f6f2cd08cfa40b851af4f47",
+    "cards/demo-d0-q3-2025.json": "4ceaa6f8743d38477b19591f4cdbf81eabc621b3db73ba95a4a44d8ee37b1abb",
+    "cards/demo-d0-q4-2025.json": "cc5d65e818914d3f8b7d92437795f7c3ab10d2496321335f0bfdeb7d9cc44f0b",
+    "report.json": "d1b4caab4bdada3d8cc101aa45992e48a9247bb9a3c5d91180f4c72b6dd7f4e5"
+  },
+  "fixture_id": "d0-demo-2026q3",
+  "model_calls": 0,
+  "origin": "fixture_replay",
+  "provider_calls": 0,
+  "report_file": "report.json",
+  "schema_version": "d0-demo-replay-v1",
+  "session_id": "d0-fixture-demo-2026q3",
+  "ticker": "DEMO",
+  "unavailable_stages": [
+    "content-aware news evidence",
+    "company ontology",
+    "committee adjudication",
+    "packet release QA",
+    "post-event outcome scoring"
+  ]
+}

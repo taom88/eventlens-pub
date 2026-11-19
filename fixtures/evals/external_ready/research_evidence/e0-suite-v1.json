@@ -1,0 +1,204 @@
+{
+  "base_input": {
+    "bundle_sha256": "1caab6c3d67b7e17a20993dd30f2407175c47ca267760b6c47b2f3a38de80fea",
+    "fixture_id": "synthetic-populated-research-evidence-v2"
+  },
+  "cases": [
+    {
+      "case_id": "bad_citation",
+      "critical": true,
+      "expected_reason_codes": [
+        "unresolved_citation"
+      ],
+      "expected_status": "blocked",
+      "operation": "bad_citation"
+    },
+    {
+      "case_id": "complete_projection",
+      "critical": true,
+      "expected_reason_codes": [
+        "all_components_projected",
+        "citations_resolved",
+        "network_calls_zero",
+        "projection_deterministic"
+      ],
+      "expected_status": "pass",
+      "operation": "complete_projection",
+      "required_evidence_kinds": [
+        "company_context.historical_overview",
+        "company_context.identity",
+        "company_context.management",
+        "company_context.revenue_drivers",
+        "company_context.segments",
+        "consensus.metric",
+        "consensus.state",
+        "historical_analytics.manifest",
+        "historical_analytics.observation",
+        "historical_analytics.summary",
+        "historical_analytics.supplement.benchmark",
+        "historical_analytics.supplement.metadata",
+        "historical_analytics.supplement.t_plus_1_costs",
+        "historical_analytics.supplement.t_plus_5_costs",
+        "management.guidance",
+        "news.aggregate",
+        "news.claim",
+        "news.classification",
+        "news.item",
+        "news.selected_passage",
+        "ontology.coverage",
+        "target.identity"
+      ],
+      "required_metric_ids": [
+        "consensus.revenue",
+        "historical_analytics.event_count",
+        "historical_analytics.next_open.mean_pct",
+        "management_guidance.guidance-revenue-q3.midpoint",
+        "news.weighted_content_score",
+        "ontology.critical_slots_populated",
+        "technical.latest_close"
+      ]
+    },
+    {
+      "case_id": "history_authorization_late",
+      "critical": true,
+      "expected_reason_codes": [
+        "history_authorization_late"
+      ],
+      "expected_status": "blocked",
+      "operation": "history_authorization_late"
+    },
+    {
+      "case_id": "history_authorization_missing",
+      "critical": true,
+      "expected_reason_codes": [
+        "history_authorization_missing"
+      ],
+      "expected_status": "blocked",
+      "operation": "history_authorization_missing"
+    },
+    {
+      "case_id": "history_authorization_ticker_mismatch",
+      "critical": true,
+      "expected_reason_codes": [
+        "history_authorization_ticker_mismatch"
+      ],
+      "expected_status": "blocked",
+      "operation": "history_authorization_ticker_mismatch"
+    },
+    {
+      "case_id": "history_draft_card",
+      "critical": true,
+      "expected_reason_codes": [
+        "history_card_not_approved"
+      ],
+      "expected_status": "blocked",
+      "operation": "history_draft_card"
+    },
+    {
+      "case_id": "history_exception_with_three_cards",
+      "critical": true,
+      "expected_reason_codes": [
+        "history_exception_with_three_cards"
+      ],
+      "expected_status": "blocked",
+      "operation": "history_exception_with_three_cards"
+    },
+    {
+      "case_id": "history_future_card",
+      "critical": true,
+      "expected_reason_codes": [
+        "history_future_event"
+      ],
+      "expected_status": "blocked",
+      "operation": "history_future_card"
+    },
+    {
+      "case_id": "history_three_approved",
+      "critical": true,
+      "expected_reason_codes": [
+        "three_approved_history_valid"
+      ],
+      "expected_status": "pass",
+      "operation": "history_three_approved"
+    },
+    {
+      "case_id": "historical_checksum_mutation",
+      "critical": true,
+      "expected_reason_codes": [
+        "historical_checksum_mismatch"
+      ],
+      "expected_status": "blocked",
+      "operation": "historical_checksum_mutation"
+    },
+    {
+      "case_id": "identity_cutoff_mismatch",
+      "critical": true,
+      "expected_reason_codes": [
+        "company_context_identity_mismatch"
+      ],
+      "expected_status": "blocked",
+      "operation": "identity_cutoff_mismatch"
+    },
+    {
+      "case_id": "identity_ticker_mismatch",
+      "critical": true,
+      "expected_reason_codes": [
+        "company_context_identity_mismatch"
+      ],
+      "expected_status": "blocked",
+      "operation": "identity_ticker_mismatch"
+    },
+    {
+      "case_id": "late_evidence",
+      "critical": true,
+      "expected_reason_codes": [
+        "late_evidence"
+      ],
+      "expected_status": "blocked",
+      "operation": "late_evidence"
+    },
+    {
+      "case_id": "legacy_v1",
+      "critical": true,
+      "expected_reason_codes": [
+        "legacy_checksum_verified",
+        "legacy_v1_rejected_for_synthesis"
+      ],
+      "expected_status": "pass",
+      "operation": "legacy_v1"
+    },
+    {
+      "case_id": "mutated_bundle_checksum",
+      "critical": true,
+      "expected_reason_codes": [
+        "bundle_checksum_mismatch"
+      ],
+      "expected_status": "blocked",
+      "operation": "mutated_bundle_checksum"
+    },
+    {
+      "case_id": "newly_covered_valid",
+      "critical": true,
+      "expected_reason_codes": [
+        "newly_covered_exception_valid"
+      ],
+      "expected_status": "pass",
+      "operation": "newly_covered_valid"
+    },
+    {
+      "case_id": "rights_degraded",
+      "critical": true,
+      "expected_reason_codes": [
+        "headline_only_not_content_scored",
+        "summary_only_citations_resolve"
+      ],
+      "expected_status": "pass",
+      "operation": "rights_degraded"
+    }
+  ],
+  "evaluator_version": "eventlens-e0-research-evidence-v1",
+  "production_boundary_commit": "0000000000000000000000000000000000000000",
+  "schema_version": "eventlens.external-ready-e0-suite.v1",
+  "suite_id": "mvp401-research-evidence-e0-v1",
+  "target_component": "eventlens.research-evidence.v2"
+}

@@ -1,0 +1,56 @@
+{
+  "fixture_class": "mixed",
+  "request_mode": "body",
+  "classification": {
+    "entity_match": "exact",
+    "event_relationship": "pre_earnings",
+    "topics": [
+      "guidance"
+    ],
+    "ontology_slot_ids": [
+      "issuer.guidance"
+    ],
+    "relevance": "high",
+    "materiality": "high",
+    "cited_claims": [
+      {
+        "claim_id": "guidance-1",
+        "text": "Example Systems raised revenue guidance.",
+        "citations": [
+          {
+            "passage_id": "content:e5c83e5930ddd467:p:1:90916e4a26e1"
+          }
+        ],
+        "summary_citations": [],
+        "confidence": "0.9"
+      }
+    ],
+    "agent_headline_tone": "mixed",
+    "agent_content_tone": "mixed",
+    "agent_fundamental_implication": "mixed",
+    "agent_near_term_market_implication": "mixed",
+    "horizon": "next_earnings",
+    "novelty": "novel",
+    "confidence": "0.8",
+    "abstention_reason": null,
+    "provider_native_sentiment": {
+      "overall_score": "0.1",
+      "overall_label": "Neutral",
+      "ticker_relevance_score": "0.9",
+      "ticker_sentiment_score": "0.3",
+      "ticker_sentiment_label": "Bullish"
+    },
+    "skill_id": "news_materiality_and_sentiment",
+    "skill_version": "1.0",
+    "prompt_version": "news-prompt-v1",
+    "usage_receipt": {
+      "provider": "fixture",
+      "model": "fixture-news",
+      "prompt_version": "news-prompt-v1",
+      "started_at": "2026-07-02T12:00:00Z",
+      "completed_at": "2026-07-02T12:00:00Z",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  }
+}

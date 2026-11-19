@@ -1,0 +1,26 @@
+{
+  "cases": [
+    {
+      "artifact_path": "cards/demo-fy2026-q2.json",
+      "artifact_sha256": "cd49eb5f3d6823d190068b5c0042aa6e811e3faa0fcc3b2dfad7d845b8ef61e0",
+      "case_id": "demo-fy2026-q2",
+      "event_id": "DEMO:2026-08-10:FY2026Q2",
+      "expected_metrics": [
+        {
+          "accounting_basis": "gaap",
+          "metric": "revenue",
+          "unit": "USD_million",
+          "value": "123.456"
+        }
+      ],
+      "fiscal_period": "FY2026_Q2",
+      "role": "benchmark",
+      "source_input_sha256": "9818ebe5457650d560805da6929a5cdd29aea49afbd3b75c6b2d124472e9f2c5",
+      "ticker": "DEMO"
+    }
+  ],
+  "dataset_id": "demo-synthetic-context-cards-v1",
+  "description": "One deterministic synthetic Example Systems card for evaluator smoke runs; not actual issuer history or an owner-reviewed quality benchmark.",
+  "schema_version": "eventlens.context-card-quality-dataset.v0.1",
+  "source_input_path": "docs/acceptance/synthetic-after-market-prior-context.json"
+}

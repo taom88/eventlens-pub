@@ -1,0 +1,35 @@
+{
+  "absolute_move_pct": "1.20",
+  "baseline_id": "demo-d0-fixed-baseline-v1",
+  "baseline_note": "Fixed descriptive replay baseline only. Signed and absolute movement labels are retained separately; no valuation conclusion is present.",
+  "confidence_interval": null,
+  "confidence_interval_missing_reason": "insufficient sample size for a confidence interval (n=3)",
+  "content_sha256": "266b8ece79a2820029c2c3e2b872827a7abc74a76ddab46db62fc68edacc229f",
+  "event_id": "DEMO:2026-10-29:2026Q3",
+  "guardrails_are_not_valuation": true,
+  "horizon": "next_session_open_vs_pre_event_reference_close",
+  "mechanical_guardrails": [
+    {
+      "basis": "mechanical guardrail; not valuation",
+      "label": "90% of reference price",
+      "name": "mechanical_lower",
+      "threshold": "0.90"
+    },
+    {
+      "basis": "mechanical guardrail; not valuation",
+      "label": "110% of reference price",
+      "name": "mechanical_upper",
+      "threshold": "1.10"
+    },
+    {
+      "basis": "mechanical guardrail; not valuation",
+      "label": "125% of reference price",
+      "name": "mechanical_stretch",
+      "threshold": "1.25"
+    }
+  ],
+  "origin": "fixture_replay",
+  "sample_size": 3,
+  "signed_move_pct": "-1.20",
+  "ticker": "DEMO"
+}

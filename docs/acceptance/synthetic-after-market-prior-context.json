@@ -1,0 +1,130 @@
+{
+  "acceptance_event_manifest": "docs/acceptance/synthetic-after-market-rehearsal.json",
+  "benchmark_ticker": "SYNIDX",
+  "company": "Example Systems, Inc.",
+  "dataset_kind": "synthetic",
+  "events": [
+    {
+      "card_id": "demo-fy2025-q4-2026-02-23-v4",
+      "event_at": "2026-02-23T22:00:00Z",
+      "event_id": "DEMO:2026-02-23:FY2025Q4",
+      "fiscal_period": {
+        "fiscal_quarter": 4,
+        "fiscal_year": 2025,
+        "period_end": "2025-12-31"
+      },
+      "historical_event_cutoff_at": "2026-02-23T20:30:00Z",
+      "issuer_source_claim": "Synthetic Example Systems fixture; not an actual issuer disclosure.",
+      "issuer_source_url": "https://example.com/issuer/prior-3",
+      "narrative": {
+        "executive_summary": "Synthetic historical-card input with illustrative financial values only.",
+        "key_messages": [
+          "Illustrative operating metric is present.",
+          "All values in this case are synthetic."
+        ],
+        "metric_interpretation": "Synthetic GAAP and non-GAAP inputs remain separately labeled."
+      },
+      "source_facts": {
+        "adjusted_ebitda_usd_million": "12.0",
+        "free_cash_flow_usd_million": "8.0",
+        "full_year_2026_adjusted_ebitda_guidance_usd_million": "12.0",
+        "full_year_2026_revenue_guidance_usd_billion": "123.4",
+        "gross_margin_percent": "70.0",
+        "net_income_usd_million": "6.0",
+        "revenue_usd_million": "123.4",
+        "revenue_yoy_percent": "123.4",
+        "subscribers_thousand": "100.0",
+        "subscribers_yoy_percent": "100.0"
+      },
+      "ticker": "DEMO"
+    },
+    {
+      "card_id": "demo-fy2026-q1-2026-05-11-v4",
+      "event_at": "2026-05-11T21:00:00Z",
+      "event_id": "DEMO:2026-05-11:FY2026Q1",
+      "fiscal_period": {
+        "fiscal_quarter": 1,
+        "fiscal_year": 2026,
+        "period_end": "2026-03-31"
+      },
+      "historical_event_cutoff_at": "2026-05-11T19:30:00Z",
+      "issuer_source_claim": "Synthetic Example Systems fixture; not an actual issuer disclosure.",
+      "issuer_source_url": "https://example.com/issuer/prior-2",
+      "narrative": {
+        "executive_summary": "Synthetic historical-card input with illustrative financial values only.",
+        "key_messages": [
+          "Illustrative operating metric is present.",
+          "All values in this case are synthetic."
+        ],
+        "metric_interpretation": "Synthetic GAAP and non-GAAP inputs remain separately labeled."
+      },
+      "source_facts": {
+        "adjusted_ebitda_usd_million": "12.0",
+        "free_cash_flow_usd_million": "8.0",
+        "full_year_2026_adjusted_ebitda_guidance_usd_million": "12.0",
+        "full_year_2026_revenue_guidance_usd_billion": "123.4",
+        "gross_margin_percent": "70.0",
+        "net_income_usd_million": "6.0",
+        "revenue_usd_million": "123.4",
+        "revenue_yoy_percent": "123.4",
+        "subscribers_thousand": "100.0",
+        "subscribers_yoy_percent": "100.0"
+      },
+      "ticker": "DEMO"
+    },
+    {
+      "card_id": "demo-fy2026-q2-2026-08-10-v4",
+      "event_at": "2026-08-10T21:00:00Z",
+      "event_id": "DEMO:2026-08-10:FY2026Q2",
+      "fiscal_period": {
+        "fiscal_quarter": 2,
+        "fiscal_year": 2026,
+        "period_end": "2026-06-30"
+      },
+      "historical_event_cutoff_at": "2026-08-10T19:30:00Z",
+      "issuer_source_claim": "Synthetic Example Systems fixture; not an actual issuer disclosure.",
+      "issuer_source_url": "https://example.com/issuer/prior-1",
+      "narrative": {
+        "executive_summary": "Synthetic historical-card input with illustrative financial values only.",
+        "key_messages": [
+          "Illustrative operating metric is present.",
+          "All values in this case are synthetic."
+        ],
+        "metric_interpretation": "Synthetic GAAP and non-GAAP inputs remain separately labeled."
+      },
+      "source_facts": {
+        "adjusted_ebitda_usd_million": "12.0",
+        "free_cash_flow_usd_million": "8.0",
+        "full_year_2026_adjusted_ebitda_guidance_usd_million": "12.0",
+        "full_year_2026_revenue_guidance_usd_billion": "123.4",
+        "gross_margin_percent": "70.0",
+        "net_income_usd_million": "6.0",
+        "revenue_usd_million": "123.4",
+        "revenue_yoy_percent": "123.4",
+        "subscribers_thousand": "100.0",
+        "subscribers_yoy_percent": "100.0"
+      },
+      "ticker": "DEMO"
+    }
+  ],
+  "facts_frozen_at": "2026-11-08T20:32:37Z",
+  "generation_window": {
+    "market_end": "2026-08-20",
+    "market_start": "2026-01-15",
+    "target_cutoff_at": "2026-11-09T20:30:00Z"
+  },
+  "news_headline_terms": [
+    "DEMO",
+    "Example Systems"
+  ],
+  "review_policy": {
+    "approval_actor_required": true,
+    "cards_emitted_as": "candidate",
+    "owner_approval_required_before_attachment": true
+  },
+  "schema_version": "eventlens.historical-context-inputs.v1",
+  "shared_caveats": [
+    "Synthetic fixture only; not actual company or provider data."
+  ],
+  "ticker": "DEMO"
+}

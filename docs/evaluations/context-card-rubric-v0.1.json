@@ -1,0 +1,57 @@
+{
+  "schema_version": "eventlens.context-card-eval.v0.1",
+  "target_score": "85",
+  "critical_gates": [
+    "material_numerical_inaccuracy",
+    "look_ahead_leakage",
+    "period_or_definition_misrepresentation",
+    "unsupported_verified_fact",
+    "concealed_critical_missing_input"
+  ],
+  "dimensions": {
+    "factual_reliability": {
+      "weight": "0.30",
+      "anchors": {
+        "0": "Material facts are wrong, leaked, or unsupported; the card is unsafe.",
+        "1": "Multiple material reliability failures make the evidence unusable.",
+        "2": "Core facts are partly usable but important labels, periods, or provenance are unreliable.",
+        "3": "Material facts are generally correct with bounded reliability gaps.",
+        "4": "Facts, definitions, cutoffs, and provenance are strong with only minor limitations.",
+        "5": "Every reviewed material claim is accurate, properly labeled, cutoff-safe, and source-resolvable."
+      }
+    },
+    "critical_information_completeness": {
+      "weight": "0.30",
+      "anchors": {
+        "0": "Critical inputs are absent or concealed and cannot support research use.",
+        "1": "Most required financial, expectation, guidance, risk, or development context is missing.",
+        "2": "Some core inputs exist, but material gaps are unexplained or retrieval failures are ambiguous.",
+        "3": "Core inputs and explicit missingness are usable, with notable but disclosed gaps.",
+        "4": "Financials, expectations, guidance, risks, drivers, and developments are substantially covered.",
+        "5": "All decision-critical inputs are present or explicitly and correctly identified as unavailable."
+      }
+    },
+    "decision_relevance": {
+      "weight": "0.25",
+      "anchors": {
+        "0": "The card is dominated by irrelevant or misleading material.",
+        "1": "Little content bears on earnings, cash flows, valuation, or investment risk.",
+        "2": "Relevant facts are present but poorly prioritized amid generic or redundant commentary.",
+        "3": "The card surfaces the major decision-relevant facts with some prioritization gaps.",
+        "4": "Material drivers and risks are clearly prioritized with little noise.",
+        "5": "The card is exceptionally focused on the evidence most likely to change research judgment."
+      }
+    },
+    "downstream_usability": {
+      "weight": "0.15",
+      "anchors": {
+        "0": "The downstream agent cannot safely or efficiently consume the card.",
+        "1": "Structure, uncertainty, or provenance defects require major reconstruction.",
+        "2": "The card is partly consumable but ambiguous, verbose, or difficult to audit.",
+        "3": "The card is structured and usable with moderate friction or unresolved review needs.",
+        "4": "The card is concise, explicit about uncertainty, and easy to trace to deeper evidence.",
+        "5": "The card is immediately consumable, audit-friendly, and efficient without producing its own thesis."
+      }
+    }
+  }
+}

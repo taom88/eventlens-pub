@@ -1,0 +1,224 @@
+{
+  "analyst_review": {
+    "approval_required_before_live_collection": true,
+    "reviewer_id": "synthetic-reviewer",
+    "reviewer_role": "project_owner_and_acceptance_analyst"
+  },
+  "call_budget": {
+    "cache_hits_do_not_expand_budget": true,
+    "hard_keyed_request_ceiling": 6,
+    "hard_total_request_ceiling": 12,
+    "planned_requests": [
+      {
+        "count": 2,
+        "credentialed": false,
+        "purpose": "revalidate issuer timing records before collection",
+        "source": "synthetic_investor_relations"
+      },
+      {
+        "count": 1,
+        "credentialed": true,
+        "purpose": "near-term event date and after-market timing cross-check",
+        "source": "finnhub_earnings_calendar"
+      },
+      {
+        "count": 1,
+        "credentialed": true,
+        "purpose": "historical EPS and estimate cross-check",
+        "source": "alpha_vantage_earnings"
+      },
+      {
+        "count": 3,
+        "credentialed": true,
+        "purpose": "one transcript for each required prior event",
+        "source": "alpha_vantage_transcript"
+      },
+      {
+        "count": 1,
+        "credentialed": true,
+        "purpose": "bounded pre-cutoff issuer news metadata",
+        "source": "alpha_vantage_news"
+      },
+      {
+        "count": 2,
+        "credentialed": false,
+        "purpose": "ticker mapping and Example Systems submissions index",
+        "source": "sec_edgar"
+      },
+      {
+        "count": 2,
+        "credentialed": false,
+        "purpose": "DEMO and SYNIDX adjusted daily history",
+        "source": "yfinance"
+      }
+    ],
+    "stop_conditions": [
+      "Stop before a request that would exceed either ceiling.",
+      "Stop if the issuer timing changes or the event can no longer be proved pre-release.",
+      "Do not replace an unavailable source with an unrecorded provider or paid endpoint."
+    ],
+    "unit": "network request or library-backed series fetch"
+  },
+  "dataset_kind": "synthetic",
+  "eligibility": {
+    "consensus": {
+      "missingness_path": "If Finnhub and Alpha Vantage provide no current estimate, preserve typed missingness and do not synthesize a value.",
+      "plan": "Use the Finnhub near-term estimate and retain a separate Alpha Vantage cross-check when available.",
+      "status": "provider_path_available"
+    },
+    "history": {
+      "blocking_rule": "EL-005 must produce three readable cutoff-safe cards; insufficient_history cannot satisfy this acceptance run.",
+      "required_card_count": 3,
+      "status": "feasible_not_built"
+    },
+    "issuer_primary_material": {
+      "sec_cik": "0000000000",
+      "sec_submissions_url": "https://example.com/source/67b767aac259",
+      "status": "available"
+    },
+    "rights": {
+      "checked_in_content": "redistributable metadata and source links only",
+      "licensed_or_provider_body_in_git": false,
+      "public_summary_rule": "Paraphrase supported facts; do not publish provider response bodies or transcript bodies.",
+      "rights_exception_required": false,
+      "status": "eligible"
+    },
+    "status": "eligible_for_bounded_live_run"
+  },
+  "event": {
+    "conference_call_at": "2026-11-17T22:00:00Z",
+    "event_date": "2026-11-17",
+    "expected_results_release_at": "2026-11-17T21:20:00Z",
+    "expected_results_release_precision": "issuer_approximate",
+    "fiscal_period": "FY2027Q3",
+    "fiscal_period_ended": "2026-10-25",
+    "local_timezone": "America/Los_Angeles"
+  },
+  "frozen_on": "2026-11-07",
+  "information_barrier": {
+    "cutoff_at": "2026-11-17T21:00:00Z",
+    "eligibility_rule": "Evidence must be available at or before cutoff_at and must not contain the target outcome.",
+    "rationale": "The cutoff is the regular-session close, twenty minutes before Example Systems's approximate results time.",
+    "target_outcome_before_lock": "forbidden"
+  },
+  "issuer": {
+    "exchange": "NASDAQ",
+    "legal_name": "Example Systems, Inc.",
+    "ontology_id": "universal",
+    "ticker": "DEMO"
+  },
+  "manifest_id": "acceptance-event:demo:2026-11-17:fy2027q3",
+  "market": {
+    "benchmark_ticker": "SYNIDX",
+    "currency": "USD",
+    "exchange_calendar": "XNYS",
+    "post_event_trading_dates": [
+      "2026-11-18",
+      "2026-11-19",
+      "2026-11-20",
+      "2026-11-23",
+      "2026-11-24"
+    ],
+    "reference_price_ticker": "DEMO",
+    "status": "liquid_reference_and_calendar_available"
+  },
+  "prior_events": [
+    {
+      "card_status": "feasible_not_built",
+      "event_date": "2026-08-26",
+      "fiscal_period": "FY2027Q2",
+      "fiscal_period_ended": "2026-07-26",
+      "issuer_results_url": "https://example.com/issuer/prior-1",
+      "planned_evidence": [
+        "issuer results and outlook",
+        "SEC Item 2.02 filing metadata",
+        "role-attributed transcript passages",
+        "historical estimate metadata",
+        "cutoff-safe DEMO and SYNIDX prices"
+      ]
+    },
+    {
+      "card_status": "feasible_not_built",
+      "event_date": "2026-05-20",
+      "fiscal_period": "FY2027Q1",
+      "fiscal_period_ended": "2026-04-26",
+      "issuer_results_url": "https://example.com/issuer/prior-2",
+      "planned_evidence": [
+        "issuer results and outlook",
+        "SEC Item 2.02 filing metadata",
+        "role-attributed transcript passages",
+        "historical estimate metadata",
+        "cutoff-safe DEMO and SYNIDX prices"
+      ]
+    },
+    {
+      "card_status": "feasible_not_built",
+      "event_date": "2026-02-25",
+      "fiscal_period": "FY2026Q4",
+      "fiscal_period_ended": "2026-01-25",
+      "issuer_results_url": "https://example.com/issuer/prior-3",
+      "planned_evidence": [
+        "issuer results and outlook",
+        "SEC Item 2.02 filing metadata",
+        "role-attributed transcript passages",
+        "historical estimate metadata",
+        "cutoff-safe DEMO and SYNIDX prices"
+      ]
+    }
+  ],
+  "schema_version": "eventlens.acceptance_event.v1",
+  "selection": {
+    "owner_selected": true,
+    "status": "frozen",
+    "ticket_id": "EL-003"
+  },
+  "source_confirmation": {
+    "records": [
+      {
+        "claim": "Synthetic schedule confirmation for Example Systems; not an actual issuer record.",
+        "confirmation_class": "issuer_primary",
+        "observed_facts": [
+          "results expected at approximately 1:20 p.m. PT on 2026-11-17",
+          "conference call at 2:00 p.m. PT on 2026-11-17",
+          "fiscal quarter ended 2026-10-25"
+        ],
+        "publisher": "Example Systems",
+        "url": "https://example.com/issuer/source-1"
+      },
+      {
+        "claim": "Synthetic schedule confirmation for Example Systems; not an actual issuer record.",
+        "confirmation_class": "issuer_event_record",
+        "observed_facts": [
+          "FY2027 Q3 financial-results event scheduled for 5:00 p.m. ET on 2026-11-17"
+        ],
+        "publisher": "Example Systems",
+        "url": "https://example.com/issuer/source-2"
+      },
+      {
+        "claim": "Synthetic schedule confirmation for Example Systems; not an actual issuer record.",
+        "confirmation_class": "secondary_schedule_corroboration",
+        "observed_facts": [
+          "earnings expected after market close on 2026-11-17",
+          "conference call scheduled for 5:00 p.m. ET"
+        ],
+        "publisher": "MarketBeat",
+        "url": "https://example.com/issuer/source-3"
+      }
+    ],
+    "release_time_note": "The exact results time is issuer-described as approximate; the conservative cutoff precedes it by twenty minutes.",
+    "runtime_revalidation_required": true,
+    "status": "date_and_after_market_timing_corroborated"
+  },
+  "successor_contract": {
+    "next_ticket": "EL-004",
+    "required_inputs": [
+      "manifest_id",
+      "issuer.ticker",
+      "event",
+      "information_barrier.cutoff_at",
+      "prior_events",
+      "call_budget",
+      "eligibility.rights"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "analyst_actor": "owner-analyst",
+  "data_mode": "live",
+  "event_date": "2026-11-09",
+  "fiscal_period": "FY2026Q3",
+  "information_cutoff_at": "2026-11-09T20:30:00Z",
+  "live_provider_run_authorized": false,
+  "manifest_relative_path": "docs/acceptance/synthetic-after-market-rehearsal.json",
+  "output_root": ".eventlens-cache/acceptance/synthetic-after-market-rehearsal",
+  "provider_window": {
+    "end": "2026-11-09",
+    "start": "2026-11-01"
+  },
+  "required_environment_variables": [
+    "ALPHAVANTAGE_API_KEY",
+    "FINNHUB_API_KEY",
+    "EVENTLENS_SEC_USER_AGENT"
+  ],
+  "schema_version": "eventlens.acceptance_run_config.v1",
+  "ticker": "DEMO"
+}

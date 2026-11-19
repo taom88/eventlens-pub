@@ -1,0 +1,1054 @@
+{
+  "$defs": {
+    "Abstention": {
+      "additionalProperties": false,
+      "properties": {
+        "missing_evidence_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing Evidence Ids",
+          "type": "array"
+        },
+        "reason": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reason"
+      ],
+      "title": "Abstention",
+      "type": "object"
+    },
+    "AgentRoute": {
+      "enum": [
+        "external",
+        "deepseek"
+      ],
+      "title": "AgentRoute",
+      "type": "string"
+    },
+    "CanonicalMetric": {
+      "additionalProperties": false,
+      "properties": {
+        "as_of": {
+          "format": "date-time",
+          "title": "As Of",
+          "type": "string"
+        },
+        "calculation_version": {
+          "minLength": 1,
+          "title": "Calculation Version",
+          "type": "string"
+        },
+        "metric_id": {
+          "minLength": 1,
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "missing_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Reason"
+        },
+        "period": {
+          "minLength": 1,
+          "title": "Period",
+          "type": "string"
+        },
+        "provenance_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Provenance Ids",
+          "type": "array"
+        },
+        "scope": {
+          "const": "pre_event",
+          "default": "pre_event",
+          "title": "Scope",
+          "type": "string"
+        },
+        "unit": {
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "required": [
+        "metric_id",
+        "unit",
+        "period",
+        "as_of",
+        "calculation_version"
+      ],
+      "title": "CanonicalMetric",
+      "type": "object"
+    },
+    "Capability": {
+      "additionalProperties": false,
+      "properties": {
+        "capability_id": {
+          "minLength": 1,
+          "title": "Capability Id",
+          "type": "string"
+        },
+        "version": {
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "capability_id",
+        "version"
+      ],
+      "title": "Capability",
+      "type": "object"
+    },
+    "Citation": {
+      "additionalProperties": false,
+      "description": "A report claim's immutable reference to a supplied evidence passage.",
+      "properties": {
+        "passage_id": {
+          "minLength": 1,
+          "title": "Passage Id",
+          "type": "string"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "passage_id"
+      ],
+      "title": "Citation",
+      "type": "object"
+    },
+    "EvidenceRetentionStatus": {
+      "enum": [
+        "bounded_excerpt",
+        "summary_only",
+        "headline_only"
+      ],
+      "title": "EvidenceRetentionStatus",
+      "type": "string"
+    },
+    "EvidenceRightsStatus": {
+      "enum": [
+        "retention_permitted",
+        "summary_permitted",
+        "metadata_only"
+      ],
+      "title": "EvidenceRightsStatus",
+      "type": "string"
+    },
+    "ExternalAgentBundle": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_skills": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Capability"
+          },
+          "title": "Allowed Skills",
+          "type": "array"
+        },
+        "allowed_tools": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Capability"
+          },
+          "title": "Allowed Tools",
+          "type": "array"
+        },
+        "built_at": {
+          "format": "date-time",
+          "title": "Built At",
+          "type": "string"
+        },
+        "bundle_id": {
+          "minLength": 1,
+          "title": "Bundle Id",
+          "type": "string"
+        },
+        "bundle_revision": {
+          "minimum": 1,
+          "title": "Bundle Revision",
+          "type": "integer"
+        },
+        "canonical_metrics": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CanonicalMetric"
+          },
+          "title": "Canonical Metrics",
+          "type": "array"
+        },
+        "content_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Sha256",
+          "type": "string"
+        },
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ExternalEvidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "forbidden_behaviors": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Forbidden Behaviors",
+          "type": "array"
+        },
+        "historical_context": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/HistoricalContextRef"
+          },
+          "title": "Historical Context",
+          "type": "array"
+        },
+        "information_cutoff_at": {
+          "format": "date-time",
+          "title": "Information Cutoff At",
+          "type": "string"
+        },
+        "instructions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Instructions",
+          "type": "array"
+        },
+        "missingness": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Missingness",
+          "type": "array"
+        },
+        "research_question": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Research Question",
+          "type": "string"
+        },
+        "route": {
+          "$ref": "#/$defs/AgentRoute"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "session_id": {
+          "minLength": 1,
+          "title": "Session Id",
+          "type": "string"
+        },
+        "target_release_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Release At"
+        },
+        "target_release_status": {
+          "minLength": 1,
+          "title": "Target Release Status",
+          "type": "string"
+        },
+        "ticker": {
+          "minLength": 1,
+          "title": "Ticker",
+          "type": "string"
+        },
+        "unavailable_stages": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Unavailable Stages",
+          "type": "array"
+        },
+        "warnings": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "bundle_id",
+        "session_id",
+        "event_id",
+        "ticker",
+        "route",
+        "bundle_revision",
+        "built_at",
+        "information_cutoff_at",
+        "target_release_status",
+        "research_question",
+        "content_sha256"
+      ],
+      "title": "ExternalAgentBundle",
+      "type": "object"
+    },
+    "ExternalAgentReport": {
+      "additionalProperties": false,
+      "properties": {
+        "abstention": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Abstention"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "bundle_id": {
+          "minLength": 1,
+          "title": "Bundle Id",
+          "type": "string"
+        },
+        "bundle_revision": {
+          "minimum": 1,
+          "title": "Bundle Revision",
+          "type": "integer"
+        },
+        "bundle_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Bundle Sha256",
+          "type": "string"
+        },
+        "claims": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ExternalClaim"
+          },
+          "title": "Claims",
+          "type": "array"
+        },
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "generated_at": {
+          "format": "date-time",
+          "title": "Generated At",
+          "type": "string"
+        },
+        "reaction_forecast": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReactionForecast"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "recommendation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ExternalRecommendation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "report_id": {
+          "minLength": 1,
+          "title": "Report Id",
+          "type": "string"
+        },
+        "scenarios": {
+          "items": {
+            "$ref": "#/$defs/ExternalScenario"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Scenarios",
+          "type": "array"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "session_id": {
+          "minLength": 1,
+          "title": "Session Id",
+          "type": "string"
+        },
+        "usage": {
+          "$ref": "#/$defs/UsageReceipt"
+        },
+        "valuation_zones": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ValuationZone"
+          },
+          "title": "Valuation Zones",
+          "type": "array"
+        },
+        "warnings": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "report_id",
+        "bundle_id",
+        "bundle_revision",
+        "bundle_sha256",
+        "session_id",
+        "event_id",
+        "generated_at",
+        "scenarios",
+        "usage"
+      ],
+      "title": "ExternalAgentReport",
+      "type": "object"
+    },
+    "ExternalClaim": {
+      "additionalProperties": false,
+      "properties": {
+        "citations": {
+          "items": {
+            "$ref": "#/$defs/Citation"
+          },
+          "minItems": 1,
+          "title": "Citations",
+          "type": "array"
+        },
+        "claim_id": {
+          "minLength": 1,
+          "title": "Claim Id",
+          "type": "string"
+        },
+        "confidence": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Confidence"
+        },
+        "kind": {
+          "default": "interpretation",
+          "enum": [
+            "fact",
+            "interpretation"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "claim_id",
+        "text",
+        "citations",
+        "confidence"
+      ],
+      "title": "ExternalClaim",
+      "type": "object"
+    },
+    "ExternalEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "available_at": {
+          "format": "date-time",
+          "title": "Available At",
+          "type": "string"
+        },
+        "content_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Sha256",
+          "type": "string"
+        },
+        "evidence_kind": {
+          "minLength": 1,
+          "title": "Evidence Kind",
+          "type": "string"
+        },
+        "passage_id": {
+          "minLength": 1,
+          "title": "Passage Id",
+          "type": "string"
+        },
+        "provenance_ref": {
+          "minLength": 1,
+          "title": "Provenance Ref",
+          "type": "string"
+        },
+        "retention_status": {
+          "$ref": "#/$defs/EvidenceRetentionStatus"
+        },
+        "rights_status": {
+          "$ref": "#/$defs/EvidenceRightsStatus"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        },
+        "typed_summary": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Typed Summary"
+        }
+      },
+      "required": [
+        "source_id",
+        "passage_id",
+        "evidence_kind",
+        "available_at",
+        "content_sha256",
+        "rights_status",
+        "retention_status",
+        "provenance_ref"
+      ],
+      "title": "ExternalEvidence",
+      "type": "object"
+    },
+    "ExternalRecommendation": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/RecommendationAction"
+        },
+        "conditions_to_change": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Conditions To Change",
+          "type": "array"
+        },
+        "contradicting_evidence_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Contradicting Evidence Ids",
+          "type": "array"
+        },
+        "conviction": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Conviction"
+        },
+        "counter_thesis": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Counter Thesis",
+          "type": "string"
+        },
+        "invalidations": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Invalidations",
+          "type": "array"
+        },
+        "missing_evidence": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing Evidence",
+          "type": "array"
+        },
+        "supporting_evidence_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Supporting Evidence Ids",
+          "type": "array"
+        },
+        "thesis": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Thesis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "action",
+        "conviction",
+        "thesis",
+        "counter_thesis"
+      ],
+      "title": "ExternalRecommendation",
+      "type": "object"
+    },
+    "ExternalScenario": {
+      "additionalProperties": false,
+      "properties": {
+        "assumptions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "canonical_metric_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Canonical Metric Ids",
+          "type": "array"
+        },
+        "citations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Citation"
+          },
+          "title": "Citations",
+          "type": "array"
+        },
+        "probability": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Probability"
+        },
+        "scenario_id": {
+          "enum": [
+            "bull",
+            "base",
+            "bear"
+          ],
+          "title": "Scenario Id",
+          "type": "string"
+        },
+        "thesis": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Thesis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scenario_id",
+        "thesis",
+        "probability"
+      ],
+      "title": "ExternalScenario",
+      "type": "object"
+    },
+    "HistoricalContextRef": {
+      "additionalProperties": false,
+      "properties": {
+        "card_id": {
+          "minLength": 1,
+          "title": "Card Id",
+          "type": "string"
+        },
+        "card_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Card Sha256",
+          "type": "string"
+        },
+        "caveats": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Caveats",
+          "type": "array"
+        },
+        "event_date": {
+          "format": "date",
+          "title": "Event Date",
+          "type": "string"
+        },
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "key_messages": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Key Messages",
+          "type": "array"
+        },
+        "knowledge_cutoff_at": {
+          "format": "date-time",
+          "title": "Knowledge Cutoff At",
+          "type": "string"
+        },
+        "readable_summary": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Readable Summary",
+          "type": "string"
+        }
+      },
+      "required": [
+        "card_id",
+        "event_id",
+        "event_date",
+        "knowledge_cutoff_at",
+        "card_sha256",
+        "readable_summary"
+      ],
+      "title": "HistoricalContextRef",
+      "type": "object"
+    },
+    "ReactionForecast": {
+      "additionalProperties": false,
+      "properties": {
+        "absolute_move_pct": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Absolute Move Pct"
+        },
+        "horizon": {
+          "minLength": 1,
+          "title": "Horizon",
+          "type": "string"
+        },
+        "signed_move_pct": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Signed Move Pct"
+        },
+        "tradeability": {
+          "minLength": 1,
+          "title": "Tradeability",
+          "type": "string"
+        },
+        "uncertainty": {
+          "minLength": 1,
+          "title": "Uncertainty",
+          "type": "string"
+        }
+      },
+      "required": [
+        "signed_move_pct",
+        "absolute_move_pct",
+        "horizon",
+        "uncertainty",
+        "tradeability"
+      ],
+      "title": "ReactionForecast",
+      "type": "object"
+    },
+    "RecommendationAction": {
+      "enum": [
+        "BUY",
+        "DONT_BUY",
+        "HOLD",
+        "TRIM",
+        "SELL"
+      ],
+      "title": "RecommendationAction",
+      "type": "string"
+    },
+    "UsageReceipt": {
+      "additionalProperties": false,
+      "properties": {
+        "completed_at": {
+          "format": "date-time",
+          "title": "Completed At",
+          "type": "string"
+        },
+        "input_tokens": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Input Tokens"
+        },
+        "model": {
+          "minLength": 1,
+          "title": "Model",
+          "type": "string"
+        },
+        "output_tokens": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Output Tokens"
+        },
+        "prompt_version": {
+          "minLength": 1,
+          "title": "Prompt Version",
+          "type": "string"
+        },
+        "provider": {
+          "minLength": 1,
+          "title": "Provider",
+          "type": "string"
+        },
+        "started_at": {
+          "format": "date-time",
+          "title": "Started At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider",
+        "model",
+        "prompt_version",
+        "started_at",
+        "completed_at"
+      ],
+      "title": "UsageReceipt",
+      "type": "object"
+    },
+    "ValuationZone": {
+      "additionalProperties": false,
+      "properties": {
+        "assumption_refs": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumption Refs",
+          "type": "array"
+        },
+        "basis": {
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        },
+        "calculation_refs": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Calculation Refs",
+          "type": "array"
+        },
+        "citations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Citation"
+          },
+          "title": "Citations",
+          "type": "array"
+        },
+        "currency": {
+          "maxLength": 3,
+          "minLength": 3,
+          "title": "Currency",
+          "type": "string"
+        },
+        "lower": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Lower"
+        },
+        "method": {
+          "minLength": 1,
+          "title": "Method",
+          "type": "string"
+        },
+        "metric_refs": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Metric Refs",
+          "type": "array"
+        },
+        "upper": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Upper"
+        },
+        "zone_id": {
+          "minLength": 1,
+          "title": "Zone Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "zone_id",
+        "method",
+        "basis",
+        "currency",
+        "lower",
+        "upper"
+      ],
+      "title": "ValuationZone",
+      "type": "object"
+    }
+  },
+  "anyOf": [
+    {
+      "$ref": "#/$defs/ExternalAgentBundle"
+    },
+    {
+      "$ref": "#/$defs/ExternalAgentReport"
+    }
+  ]
+}

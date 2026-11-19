@@ -1,0 +1,4423 @@
+{
+  "$defs": {
+    "AccountingAdjustment": {
+      "additionalProperties": false,
+      "description": "A signed EPS effect included in the source basis and removed at target.\n\nPositive effects raise source-basis EPS; negative effects lower it.  Thus a\nGAAP-to-adjusted mapping is ``adjusted = gaap - sum(eps_effect)``.",
+      "properties": {
+        "adjustment_id": {
+          "minLength": 1,
+          "title": "Adjustment Id",
+          "type": "string"
+        },
+        "adjustment_type": {
+          "minLength": 1,
+          "title": "Adjustment Type",
+          "type": "string"
+        },
+        "eps_effect": {
+          "$ref": "#/$defs/MetricValue"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "receipt_refs": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Receipt Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "adjustment_id",
+        "adjustment_type",
+        "name",
+        "eps_effect",
+        "receipt_refs"
+      ],
+      "title": "AccountingAdjustment",
+      "type": "object"
+    },
+    "AccountingBasis": {
+      "enum": [
+        "gaap",
+        "adjusted",
+        "non_gaap",
+        "unknown",
+        "not_applicable"
+      ],
+      "title": "AccountingBasis",
+      "type": "string"
+    },
+    "ActualResults": {
+      "additionalProperties": false,
+      "description": "Issuer actuals for one quarter; unavailable fields stay null with a reason.",
+      "properties": {
+        "earnings_quality": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EarningsQuality"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "evidence_refs": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "fiscal_period": {
+          "$ref": "#/$defs/FiscalPeriod"
+        },
+        "metrics": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/MetricValue"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "propertyNames": {
+            "$ref": "#/$defs/NormalizedMetric"
+          },
+          "title": "Metrics",
+          "type": "object"
+        },
+        "missing_metric_reasons": {
+          "additionalProperties": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "propertyNames": {
+            "$ref": "#/$defs/NormalizedMetric"
+          },
+          "title": "Missing Metric Reasons",
+          "type": "object"
+        }
+      },
+      "required": [
+        "fiscal_period",
+        "evidence_refs"
+      ],
+      "title": "ActualResults",
+      "type": "object"
+    },
+    "AttributionCandidate": {
+      "additionalProperties": false,
+      "description": "One possible driver, traceable to both claims and their receipts.",
+      "properties": {
+        "direction": {
+          "$ref": "#/$defs/AttributionDirection"
+        },
+        "evidence_class": {
+          "default": "inferred",
+          "enum": [
+            "inferred",
+            "attributed"
+          ],
+          "title": "Evidence Class",
+          "type": "string"
+        },
+        "evidence_receipt_ids": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Receipt Ids",
+          "type": "array"
+        },
+        "factor": {
+          "minLength": 1,
+          "title": "Factor",
+          "type": "string"
+        },
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "importance": {
+          "$ref": "#/$defs/AttributionImportance"
+        },
+        "rationale": {
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "semantic_claim_ids": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Semantic Claim Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "factor",
+        "direction",
+        "importance",
+        "rationale",
+        "semantic_claim_ids",
+        "evidence_receipt_ids"
+      ],
+      "title": "AttributionCandidate",
+      "type": "object"
+    },
+    "AttributionConfidence": {
+      "description": "Calibrated ordinal confidence in an inferred interpretation.",
+      "enum": [
+        "unknown",
+        "low",
+        "medium",
+        "high"
+      ],
+      "title": "AttributionConfidence",
+      "type": "string"
+    },
+    "AttributionDirection": {
+      "enum": [
+        "positive",
+        "negative",
+        "mixed",
+        "neutral"
+      ],
+      "title": "AttributionDirection",
+      "type": "string"
+    },
+    "AttributionImportance": {
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "title": "AttributionImportance",
+      "type": "string"
+    },
+    "AttributionWindow": {
+      "description": "Reaction horizons whose information sets have different uncertainty.",
+      "enum": [
+        "after_hours",
+        "t_plus_1",
+        "t_plus_2",
+        "t_plus_5"
+      ],
+      "title": "AttributionWindow",
+      "type": "string"
+    },
+    "AvailabilityValue": {
+      "description": "Three-valued answer to ``available before the cutoff?``",
+      "enum": [
+        "available",
+        "unavailable",
+        "unknown"
+      ],
+      "title": "AvailabilityValue",
+      "type": "string"
+    },
+    "BenchmarkReaction": {
+      "additionalProperties": false,
+      "description": "The matched benchmark reaction used for arithmetic context only.",
+      "properties": {
+        "methodology": {
+          "default": "next-session-open-vs-reference-close-with-supplemental-after-hours",
+          "title": "Methodology",
+          "type": "string"
+        },
+        "methodology_version": {
+          "default": "market-reaction-v4",
+          "title": "Methodology Version",
+          "type": "string"
+        },
+        "prices": {
+          "$ref": "#/$defs/ReactionPriceSet"
+        },
+        "returns": {
+          "$ref": "#/$defs/ReactionReturnSet"
+        },
+        "ticker": {
+          "title": "Ticker",
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CalculationWarning"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "ticker",
+        "prices",
+        "returns"
+      ],
+      "title": "BenchmarkReaction",
+      "type": "object"
+    },
+    "CalculationWarning": {
+      "additionalProperties": false,
+      "description": "A visible limitation or missing-data condition in a calculation result.",
+      "properties": {
+        "code": {
+          "minLength": 1,
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "minLength": 1,
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "CalculationWarning",
+      "type": "object"
+    },
+    "CardIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "card": {
+          "$ref": "#/$defs/CardMetadata"
+        },
+        "company": {
+          "minLength": 1,
+          "title": "Company",
+          "type": "string"
+        },
+        "event": {
+          "$ref": "#/$defs/EventIdentity"
+        },
+        "ticker": {
+          "pattern": "^[A-Z][A-Z0-9.-]*$",
+          "title": "Ticker",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ticker",
+        "company",
+        "event",
+        "card"
+      ],
+      "title": "CardIdentity",
+      "type": "object"
+    },
+    "CardMetadata": {
+      "additionalProperties": false,
+      "description": "Generation identity of this card, separate from the earnings event.",
+      "properties": {
+        "as_of": {
+          "format": "date-time",
+          "title": "As Of",
+          "type": "string"
+        },
+        "generated_at": {
+          "format": "date-time",
+          "title": "Generated At",
+          "type": "string"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        },
+        "status": {
+          "default": "draft",
+          "enum": [
+            "draft",
+            "blocked",
+            "reviewed",
+            "approved",
+            "stale"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "version": {
+          "const": 4,
+          "default": 4,
+          "title": "Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "generated_at",
+        "as_of"
+      ],
+      "title": "CardMetadata",
+      "type": "object"
+    },
+    "ClaimLocation": {
+      "additionalProperties": false,
+      "description": "A passage-relative, half-open character span and its stable pointers.",
+      "properties": {
+        "char_end": {
+          "minimum": 1,
+          "title": "Char End",
+          "type": "integer"
+        },
+        "char_start": {
+          "minimum": 0,
+          "title": "Char Start",
+          "type": "integer"
+        },
+        "passage_id": {
+          "minLength": 1,
+          "title": "Passage Id",
+          "type": "string"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "passage_id",
+        "char_start",
+        "char_end"
+      ],
+      "title": "ClaimLocation",
+      "type": "object"
+    },
+    "ClaimQuality": {
+      "description": "Completeness assessment of a claim, never a truth assessment.",
+      "enum": [
+        "complete",
+        "ambiguous",
+        "partial"
+      ],
+      "title": "ClaimQuality",
+      "type": "string"
+    },
+    "CompanyOntology": {
+      "additionalProperties": false,
+      "description": "Compact ontology identity; the full registry remains a package asset.",
+      "properties": {
+        "ontology_id": {
+          "minLength": 1,
+          "title": "Ontology Id",
+          "type": "string"
+        },
+        "reference": {
+          "minLength": 1,
+          "title": "Reference",
+          "type": "string"
+        },
+        "version": {
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ontology_id",
+        "version",
+        "reference"
+      ],
+      "title": "CompanyOntology",
+      "type": "object"
+    },
+    "ConfidenceLevel": {
+      "enum": [
+        "unknown",
+        "low",
+        "medium",
+        "high"
+      ],
+      "title": "ConfidenceLevel",
+      "type": "string"
+    },
+    "Conflict": {
+      "additionalProperties": false,
+      "description": "A pair of differing observations and its explicit resolution state.",
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "kpi_id": {
+          "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$",
+          "title": "Kpi Id",
+          "type": "string"
+        },
+        "materiality": {
+          "$ref": "#/$defs/ConflictMateriality"
+        },
+        "observations": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "$ref": "#/$defs/MetricObservation"
+            },
+            {
+              "$ref": "#/$defs/MetricObservation"
+            }
+          ],
+          "title": "Observations",
+          "type": "array"
+        },
+        "resolution": {
+          "$ref": "#/$defs/ConflictResolution"
+        },
+        "resolution_status": {
+          "$ref": "#/$defs/ResolutionStatus"
+        },
+        "review_blocking": {
+          "title": "Review Blocking",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "kpi_id",
+        "observations",
+        "materiality",
+        "resolution_status",
+        "resolution",
+        "review_blocking"
+      ],
+      "title": "Conflict",
+      "type": "object"
+    },
+    "ConflictMateriality": {
+      "enum": [
+        "material",
+        "non_material"
+      ],
+      "title": "ConflictMateriality",
+      "type": "string"
+    },
+    "ConflictResolution": {
+      "additionalProperties": false,
+      "description": "Auditable classification of a difference, without a winning value.",
+      "properties": {
+        "explanation": {
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        },
+        "human_review_required": {
+          "title": "Human Review Required",
+          "type": "boolean"
+        },
+        "observation_ids": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 2,
+          "title": "Observation Ids",
+          "type": "array"
+        },
+        "provenance_refs": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 2,
+          "title": "Provenance Refs",
+          "type": "array"
+        },
+        "rule": {
+          "$ref": "#/$defs/ConflictResolutionRule"
+        },
+        "status": {
+          "$ref": "#/$defs/ResolutionStatus"
+        }
+      },
+      "required": [
+        "status",
+        "rule",
+        "explanation",
+        "observation_ids",
+        "provenance_refs",
+        "human_review_required"
+      ],
+      "title": "ConflictResolution",
+      "type": "object"
+    },
+    "ConflictResolutionRule": {
+      "enum": [
+        "claim_type_difference",
+        "period_difference",
+        "basis_difference",
+        "rounding_difference",
+        "unresolved_difference"
+      ],
+      "title": "ConflictResolutionRule",
+      "type": "string"
+    },
+    "ConsensusEps": {
+      "additionalProperties": false,
+      "description": "One EPS estimate with its provider and declared accounting basis.",
+      "properties": {
+        "estimate": {
+          "$ref": "#/$defs/MetricValue"
+        },
+        "provider": {
+          "minLength": 1,
+          "title": "Provider",
+          "type": "string"
+        },
+        "receipt_refs": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Receipt Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "estimate",
+        "provider",
+        "receipt_refs"
+      ],
+      "title": "ConsensusEps",
+      "type": "object"
+    },
+    "ConsensusState": {
+      "additionalProperties": false,
+      "description": "Consensus slots without provider selection or reconciliation logic.",
+      "properties": {
+        "blockers": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Blockers",
+          "type": "array"
+        },
+        "eps": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ConsensusEps"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "fiscal_period": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fiscal Period"
+        },
+        "metrics": {
+          "additionalProperties": {
+            "$ref": "#/$defs/MetricValue"
+          },
+          "propertyNames": {
+            "$ref": "#/$defs/NormalizedMetric"
+          },
+          "title": "Metrics",
+          "type": "object"
+        },
+        "status": {
+          "default": "missing",
+          "enum": [
+            "missing",
+            "partial",
+            "available",
+            "conflicted"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "title": "ConsensusState",
+      "type": "object"
+    },
+    "ConsensusType": {
+      "description": "Expectation provenance; management guidance is never sell-side consensus.",
+      "enum": [
+        "sell_side",
+        "prior_management_guidance"
+      ],
+      "title": "ConsensusType",
+      "type": "string"
+    },
+    "CurrentPreEventState": {
+      "additionalProperties": false,
+      "description": "Latest known state with every quantitative fact using ``MetricValue``.",
+      "properties": {
+        "ai_state": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "propertyNames": {
+            "minLength": 1
+          },
+          "title": "Ai State",
+          "type": "object"
+        },
+        "capacity_state": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Capacity State"
+        },
+        "current_management_guidance": {
+          "additionalProperties": {
+            "$ref": "#/$defs/MetricValue"
+          },
+          "propertyNames": {
+            "$ref": "#/$defs/NormalizedMetric"
+          },
+          "title": "Current Management Guidance",
+          "type": "object"
+        },
+        "current_management_guidance_qualitative": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "propertyNames": {
+            "minLength": 1
+          },
+          "title": "Current Management Guidance Qualitative",
+          "type": "object"
+        },
+        "earnings_quality": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EarningsQuality"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "latest_actuals": {
+          "additionalProperties": {
+            "$ref": "#/$defs/MetricValue"
+          },
+          "propertyNames": {
+            "$ref": "#/$defs/NormalizedMetric"
+          },
+          "title": "Latest Actuals",
+          "type": "object"
+        },
+        "latest_reported_fiscal_period": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Latest Reported Fiscal Period"
+        }
+      },
+      "title": "CurrentPreEventState",
+      "type": "object"
+    },
+    "Decision": {
+      "additionalProperties": false,
+      "description": "Canonical card spelling of the typed Ticket 19 decision output.",
+      "properties": {
+        "action": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DecisionAction"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "confidence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DecisionConfidenceComponents"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Z]{3}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency"
+        },
+        "decision_support_notice": {
+          "const": "Decision support only; not personalized financial advice or trade execution.",
+          "default": "Decision support only; not personalized financial advice or trade execution.",
+          "title": "Decision Support Notice",
+          "type": "string"
+        },
+        "decision_type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DecisionType"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "entry_threshold": {
+          "$ref": "#/$defs/EntryThreshold"
+        },
+        "horizon": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DecisionHorizon"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "long_term_view": {
+          "$ref": "#/$defs/LongTermInvestmentView"
+        },
+        "methodology_status": {
+          "const": "proposed_pending_analyst_review",
+          "default": "proposed_pending_analyst_review",
+          "title": "Methodology Status",
+          "type": "string"
+        },
+        "overall_confidence": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Overall Confidence"
+        },
+        "overall_confidence_level": {
+          "$ref": "#/$defs/ConfidenceLevel",
+          "default": "unknown"
+        },
+        "rationale": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rationale"
+        },
+        "reference_price": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Price"
+        },
+        "reference_price_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Price At"
+        },
+        "scenarios": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Scenario"
+          },
+          "title": "Scenarios",
+          "type": "array"
+        },
+        "status": {
+          "$ref": "#/$defs/DecisionStatus",
+          "default": "not_evaluated"
+        },
+        "trace": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DecisionTrace"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "Decision",
+      "type": "object"
+    },
+    "DecisionAction": {
+      "description": "v4 actions plus exact legacy spellings for persistence compatibility.",
+      "enum": [
+        "avoid_new_long",
+        "buy",
+        "hold",
+        "reduce",
+        "insufficient_evidence",
+        "BUY",
+        "DONT_BUY",
+        "TRIM",
+        "SELL"
+      ],
+      "title": "DecisionAction",
+      "type": "string"
+    },
+    "DecisionConfidenceComponents": {
+      "additionalProperties": false,
+      "properties": {
+        "accounting_comparability": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Accounting Comparability"
+        },
+        "attribution_quality": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Attribution Quality"
+        },
+        "consensus_quality": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Consensus Quality"
+        },
+        "decision_calibration": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Decision Calibration"
+        },
+        "factual_integrity": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Factual Integrity"
+        },
+        "temporal_integrity": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Temporal Integrity"
+        }
+      },
+      "required": [
+        "factual_integrity",
+        "temporal_integrity",
+        "accounting_comparability",
+        "consensus_quality",
+        "attribution_quality",
+        "decision_calibration"
+      ],
+      "title": "DecisionConfidenceComponents",
+      "type": "object"
+    },
+    "DecisionContext": {
+      "additionalProperties": false,
+      "description": "Evaluation frame only; Ticket 1 does not compute or store an action.",
+      "properties": {
+        "currency": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Z]{3}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency"
+        },
+        "decision_status": {
+          "const": "not_evaluated",
+          "default": "not_evaluated",
+          "title": "Decision Status",
+          "type": "string"
+        },
+        "decision_type": {
+          "$ref": "#/$defs/DecisionType",
+          "default": "pre_earnings_event_trade"
+        },
+        "entry_threshold": {
+          "$ref": "#/$defs/EntryThreshold"
+        },
+        "horizon_end": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Horizon End"
+        },
+        "horizon_start": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Horizon Start"
+        },
+        "long_term_view_explicitly_separate": {
+          "const": true,
+          "default": true,
+          "title": "Long Term View Explicitly Separate",
+          "type": "boolean"
+        },
+        "reference_price": {
+          "$ref": "#/$defs/_UnknownSafeNumber"
+        }
+      },
+      "title": "DecisionContext",
+      "type": "object"
+    },
+    "DecisionCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_receipt_ids": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Receipt Ids",
+          "type": "array"
+        },
+        "statement": {
+          "minLength": 1,
+          "title": "Statement",
+          "type": "string"
+        }
+      },
+      "required": [
+        "statement",
+        "evidence_receipt_ids"
+      ],
+      "title": "DecisionCriterion",
+      "type": "object"
+    },
+    "DecisionHorizon": {
+      "additionalProperties": false,
+      "properties": {
+        "end": {
+          "format": "date-time",
+          "title": "End",
+          "type": "string"
+        },
+        "rationale": {
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "start": {
+          "format": "date-time",
+          "title": "Start",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start",
+        "end",
+        "rationale"
+      ],
+      "title": "DecisionHorizon",
+      "type": "object"
+    },
+    "DecisionNumericValue": {
+      "additionalProperties": false,
+      "description": "Null-safe scalar retained for compatibility with the neutral v4 card.",
+      "properties": {
+        "status": {
+          "default": "unknown",
+          "enum": [
+            "known",
+            "computed",
+            "not_computed",
+            "unknown",
+            "insufficient_calibration",
+            "removed_due_to_unverifiable_derivation"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "title": "DecisionNumericValue",
+      "type": "object"
+    },
+    "DecisionStatus": {
+      "enum": [
+        "not_evaluated",
+        "proposed_pending_analyst_review",
+        "blocked"
+      ],
+      "title": "DecisionStatus",
+      "type": "string"
+    },
+    "DecisionTrace": {
+      "additionalProperties": false,
+      "properties": {
+        "analytical_use": {
+          "const": "autonomous_decision",
+          "default": "autonomous_decision",
+          "title": "Analytical Use",
+          "type": "string"
+        },
+        "input_evidence_receipt_ids": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Input Evidence Receipt Ids",
+          "type": "array"
+        },
+        "invalidation_evidence_receipt_ids": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Invalidation Evidence Receipt Ids",
+          "type": "array"
+        },
+        "long_term_evidence_receipt_ids": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Long Term Evidence Receipt Ids",
+          "type": "array"
+        },
+        "policy_version": {
+          "const": "eventlens.context_card.decision.proposed.1",
+          "default": "eventlens.context_card.decision.proposed.1",
+          "title": "Policy Version",
+          "type": "string"
+        },
+        "scenario_calibration_evidence_receipt_ids": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Scenario Calibration Evidence Receipt Ids",
+          "type": "array"
+        },
+        "threshold_input_receipt_ids": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Threshold Input Receipt Ids",
+          "type": "array"
+        },
+        "traced_at": {
+          "format": "date-time",
+          "title": "Traced At",
+          "type": "string"
+        },
+        "trigger_evidence_receipt_ids": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Trigger Evidence Receipt Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "input_evidence_receipt_ids",
+        "traced_at"
+      ],
+      "title": "DecisionTrace",
+      "type": "object"
+    },
+    "DecisionType": {
+      "enum": [
+        "pre_earnings_event_trade",
+        "long_term_investment_view"
+      ],
+      "title": "DecisionType",
+      "type": "string"
+    },
+    "EarningsQuality": {
+      "additionalProperties": false,
+      "description": "Accounting reconciliation without an automatically invented recurring EPS.",
+      "properties": {
+        "actuals": {
+          "$ref": "#/$defs/EpsActuals"
+        },
+        "normalization_mappings": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/NormalizationMapping"
+          },
+          "title": "Normalization Mappings",
+          "type": "array"
+        },
+        "recurring_eps": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetricValue"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "recurring_eps_methodology": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recurring Eps Methodology"
+        },
+        "recurring_eps_receipt_refs": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Recurring Eps Receipt Refs",
+          "type": "array"
+        },
+        "recurring_eps_status": {
+          "default": "not_computed",
+          "enum": [
+            "not_computed",
+            "computed"
+          ],
+          "title": "Recurring Eps Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "actuals"
+      ],
+      "title": "EarningsQuality",
+      "type": "object"
+    },
+    "EntryThreshold": {
+      "additionalProperties": false,
+      "properties": {
+        "computed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Computed At"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Z]{3}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency"
+        },
+        "inputs": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Inputs",
+          "type": "array"
+        },
+        "methodology": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ThresholdMethodology"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "methodology_status": {
+          "const": "proposed_pending_analyst_review",
+          "default": "proposed_pending_analyst_review",
+          "title": "Methodology Status",
+          "type": "string"
+        },
+        "sensitivity": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sensitivity"
+        },
+        "status": {
+          "$ref": "#/$defs/ThresholdStatus",
+          "default": "not_computed"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "title": "EntryThreshold",
+      "type": "object"
+    },
+    "EpsActuals": {
+      "additionalProperties": false,
+      "description": "Issuer EPS actuals, keeping GAAP and adjusted values distinct.",
+      "properties": {
+        "adjusted": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetricValue"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "adjusted_receipt_refs": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Adjusted Receipt Refs",
+          "type": "array"
+        },
+        "gaap": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetricValue"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "gaap_receipt_refs": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Gaap Receipt Refs",
+          "type": "array"
+        }
+      },
+      "title": "EpsActuals",
+      "type": "object"
+    },
+    "EventIdentity": {
+      "additionalProperties": false,
+      "description": "Explicit fiscal and wall-clock identity of the event being evaluated.",
+      "properties": {
+        "event_datetime": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Event Datetime"
+        },
+        "event_datetime_status": {
+          "default": "unknown",
+          "enum": [
+            "confirmed",
+            "estimated",
+            "unknown"
+          ],
+          "title": "Event Datetime Status",
+          "type": "string"
+        },
+        "fiscal_period": {
+          "minLength": 1,
+          "title": "Fiscal Period",
+          "type": "string"
+        },
+        "timezone": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timezone"
+        },
+        "type": {
+          "const": "earnings",
+          "default": "earnings",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "fiscal_period"
+      ],
+      "title": "EventIdentity",
+      "type": "object"
+    },
+    "EventTimestampEvidence": {
+      "additionalProperties": false,
+      "description": "Bounded public-artifact timestamp evidence for a historical event.\n\nThis is not an issuer-release-time assertion.  It records the first\nverified public artifact time available in the staged source receipt.",
+      "properties": {
+        "acceptance_receipt": {
+          "minLength": 1,
+          "title": "Acceptance Receipt",
+          "type": "string"
+        },
+        "evidence_receipt_id": {
+          "minLength": 1,
+          "title": "Evidence Receipt Id",
+          "type": "string"
+        },
+        "first_verified_at": {
+          "format": "date-time",
+          "title": "First Verified At",
+          "type": "string"
+        },
+        "limitation": {
+          "const": "SEC acceptance timestamp proxy only; not an issuer earnings-release timestamp.",
+          "default": "SEC acceptance timestamp proxy only; not an issuer earnings-release timestamp.",
+          "title": "Limitation",
+          "type": "string"
+        },
+        "policy_version": {
+          "const": "eventlens.timestamp_proxy.acceptance_receipt.v1",
+          "default": "eventlens.timestamp_proxy.acceptance_receipt.v1",
+          "title": "Policy Version",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "source_url": {
+          "minLength": 1,
+          "title": "Source Url",
+          "type": "string"
+        },
+        "timestamp_kind": {
+          "const": "first_verified_public_artifact_proxy",
+          "default": "first_verified_public_artifact_proxy",
+          "title": "Timestamp Kind",
+          "type": "string"
+        },
+        "timezone": {
+          "const": "UTC",
+          "default": "UTC",
+          "title": "Timezone",
+          "type": "string"
+        }
+      },
+      "required": [
+        "first_verified_at",
+        "source_url",
+        "source_sha256",
+        "acceptance_receipt",
+        "evidence_receipt_id"
+      ],
+      "title": "EventTimestampEvidence",
+      "type": "object"
+    },
+    "EventTiming": {
+      "enum": [
+        "before_market_open",
+        "after_market_close",
+        "during_market_hours",
+        "unknown"
+      ],
+      "title": "EventTiming",
+      "type": "string"
+    },
+    "EventWindowResolution": {
+      "additionalProperties": false,
+      "description": "The date convention used by all event-return calculations.",
+      "properties": {
+        "effective_timing": {
+          "$ref": "#/$defs/EventTiming"
+        },
+        "event_date": {
+          "format": "date",
+          "title": "Event Date",
+          "type": "string"
+        },
+        "fifth_post_event_trading_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fifth Post Event Trading Date"
+        },
+        "first_post_event_trading_date": {
+          "format": "date",
+          "title": "First Post Event Trading Date",
+          "type": "string"
+        },
+        "method": {
+          "default": "supplied_ordered_trading_dates",
+          "title": "Method",
+          "type": "string"
+        },
+        "reference_trading_date": {
+          "format": "date",
+          "title": "Reference Trading Date",
+          "type": "string"
+        },
+        "reported_timing": {
+          "$ref": "#/$defs/EventTiming"
+        },
+        "resolved_post_event_trading_dates": {
+          "items": {
+            "format": "date",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Resolved Post Event Trading Dates",
+          "type": "array"
+        },
+        "warnings": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CalculationWarning"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event_date",
+        "reported_timing",
+        "effective_timing",
+        "reference_trading_date",
+        "first_post_event_trading_date",
+        "resolved_post_event_trading_dates"
+      ],
+      "title": "EventWindowResolution",
+      "type": "object"
+    },
+    "EvidenceClass": {
+      "description": "How a receipt's claim relates to its underlying source material.",
+      "enum": [
+        "source_native",
+        "reconstructed",
+        "derived",
+        "inferred",
+        "attributed"
+      ],
+      "title": "EvidenceClass",
+      "type": "string"
+    },
+    "EvidenceReceipt": {
+      "additionalProperties": false,
+      "description": "Compact, typed evidence provenance safe to embed in a context card.\n\n``source_ref`` and ``temporal_context_ref`` are stable pointers.  Provider\nresponse bodies deliberately have no field here.  Derived and inferred\nreceipts instead point to other receipts in the card's registry.",
+      "properties": {
+        "claim": {
+          "minLength": 1,
+          "title": "Claim",
+          "type": "string"
+        },
+        "claims_causation": {
+          "default": false,
+          "title": "Claims Causation",
+          "type": "boolean"
+        },
+        "confidence": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Confidence"
+        },
+        "evidence_class": {
+          "$ref": "#/$defs/EvidenceClass"
+        },
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "input_receipt_ids": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Input Receipt Ids",
+          "type": "array"
+        },
+        "operands_validated": {
+          "default": false,
+          "title": "Operands Validated",
+          "type": "boolean"
+        },
+        "source_ref": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Ref"
+        },
+        "temporal_context_ref": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Temporal Context Ref"
+        }
+      },
+      "required": [
+        "id",
+        "evidence_class",
+        "claim"
+      ],
+      "title": "EvidenceReceipt",
+      "type": "object"
+    },
+    "EvidenceRegistry": {
+      "additionalProperties": false,
+      "description": "Typed, compact receipts and their bounded semantic claims.\n\nClaims intentionally retain only an exact receipt-sized excerpt.  The\ncomplete source body remains in immutable research memory, addressed by\nthe claim's source and passage pointers.",
+      "properties": {
+        "receipts": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/EvidenceReceipt"
+          },
+          "title": "Receipts",
+          "type": "array"
+        },
+        "semantic_claims": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SemanticClaim"
+          },
+          "title": "Semantic Claims",
+          "type": "array"
+        }
+      },
+      "title": "EvidenceRegistry",
+      "type": "object"
+    },
+    "Expectation": {
+      "additionalProperties": false,
+      "description": "One pre-result expectation for a named completed fiscal quarter.",
+      "properties": {
+        "availability_status": {
+          "default": "cutoff_native",
+          "title": "Availability Status",
+          "type": "string"
+        },
+        "consensus_type": {
+          "$ref": "#/$defs/ConsensusType"
+        },
+        "eps": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ConsensusEps"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "evidence_refs": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "fiscal_period": {
+          "$ref": "#/$defs/FiscalPeriod"
+        },
+        "metrics": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/MetricValue"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "propertyNames": {
+            "$ref": "#/$defs/NormalizedMetric"
+          },
+          "title": "Metrics",
+          "type": "object"
+        },
+        "missing_metric_reasons": {
+          "additionalProperties": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "propertyNames": {
+            "$ref": "#/$defs/NormalizedMetric"
+          },
+          "title": "Missing Metric Reasons",
+          "type": "object"
+        },
+        "prior_guidance": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/GuidanceEntry"
+          },
+          "title": "Prior Guidance",
+          "type": "array"
+        }
+      },
+      "required": [
+        "consensus_type",
+        "fiscal_period"
+      ],
+      "title": "Expectation",
+      "type": "object"
+    },
+    "FactTruthStatus": {
+      "description": "Factual assessment, independent of when the fact was available.",
+      "enum": [
+        "verified",
+        "reported",
+        "unverified",
+        "refuted",
+        "conflicted",
+        "unknown"
+      ],
+      "title": "FactTruthStatus",
+      "type": "string"
+    },
+    "FiscalPeriod": {
+      "additionalProperties": false,
+      "description": "A fiscal period supplied with every numeric metric.\n\nA fiscal year alone explicitly denotes an annual metric; a quarter adds a\nfiscal-quarter identity.  ``period_end`` is optional source detail, not a\nsubstitute for a fiscal period.",
+      "properties": {
+        "fiscal_quarter": {
+          "anyOf": [
+            {
+              "maximum": 4,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fiscal Quarter"
+        },
+        "fiscal_year": {
+          "minimum": 1,
+          "title": "Fiscal Year",
+          "type": "integer"
+        },
+        "period_end": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Period End"
+        }
+      },
+      "required": [
+        "fiscal_year"
+      ],
+      "title": "FiscalPeriod",
+      "type": "object"
+    },
+    "GrowthBasis": {
+      "enum": [
+        "reported",
+        "constant_currency",
+        "unknown",
+        "not_applicable"
+      ],
+      "title": "GrowthBasis",
+      "type": "string"
+    },
+    "GuidanceEntry": {
+      "additionalProperties": false,
+      "description": "A management statement and, when available, its eventual actual.",
+      "properties": {
+        "actual_evidence_refs": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Actual Evidence Refs",
+          "type": "array"
+        },
+        "eventual_actual": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetricValue"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "eventual_actual_missing_reason": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Eventual Actual Missing Reason"
+        },
+        "evidence_refs": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "guidance": {
+          "$ref": "#/$defs/GuidanceValue"
+        },
+        "guidance_id": {
+          "minLength": 1,
+          "title": "Guidance Id",
+          "type": "string"
+        },
+        "issued_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Issued At"
+        },
+        "issued_fiscal_period": {
+          "$ref": "#/$defs/FiscalPeriod"
+        },
+        "metric": {
+          "$ref": "#/$defs/NormalizedMetric"
+        },
+        "target_fiscal_period": {
+          "$ref": "#/$defs/FiscalPeriod"
+        }
+      },
+      "required": [
+        "guidance_id",
+        "issued_fiscal_period",
+        "target_fiscal_period",
+        "metric",
+        "guidance",
+        "evidence_refs"
+      ],
+      "title": "GuidanceEntry",
+      "type": "object"
+    },
+    "GuidanceType": {
+      "enum": [
+        "range",
+        "point",
+        "floor",
+        "ceiling",
+        "qualitative"
+      ],
+      "title": "GuidanceType",
+      "type": "string"
+    },
+    "GuidanceValue": {
+      "additionalProperties": false,
+      "description": "One management-issued target, retaining its original range semantics.",
+      "properties": {
+        "accounting_basis": {
+          "$ref": "#/$defs/AccountingBasis",
+          "default": "not_applicable"
+        },
+        "growth_basis": {
+          "$ref": "#/$defs/GrowthBasis",
+          "default": "not_applicable"
+        },
+        "high": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "High"
+        },
+        "low": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Low"
+        },
+        "missing_reason": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Reason"
+        },
+        "point": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Point"
+        },
+        "qualitative_statement": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Qualitative Statement"
+        },
+        "scope": {
+          "$ref": "#/$defs/MetricScope",
+          "default": "consolidated"
+        },
+        "type": {
+          "$ref": "#/$defs/GuidanceType"
+        },
+        "unit": {
+          "$ref": "#/$defs/MetricUnit"
+        }
+      },
+      "required": [
+        "type",
+        "unit"
+      ],
+      "title": "GuidanceValue",
+      "type": "object"
+    },
+    "HistoricalQuarter": {
+      "additionalProperties": false,
+      "description": "The five-stage record for exactly one completed issuer fiscal quarter.",
+      "properties": {
+        "actual_results": {
+          "$ref": "#/$defs/ActualResults"
+        },
+        "event_timestamp_evidence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EventTimestampEvidence"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "evidence_refs": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "expectations": {
+          "items": {
+            "$ref": "#/$defs/Expectation"
+          },
+          "minItems": 1,
+          "title": "Expectations",
+          "type": "array"
+        },
+        "fiscal_period": {
+          "$ref": "#/$defs/FiscalPeriod"
+        },
+        "forward_guidance": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/GuidanceEntry"
+          },
+          "title": "Forward Guidance",
+          "type": "array"
+        },
+        "reaction": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MarketReaction"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "reaction_missing_reason": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reaction Missing Reason"
+        },
+        "surprise_layers": {
+          "$ref": "#/$defs/SurpriseLayers"
+        }
+      },
+      "required": [
+        "fiscal_period",
+        "expectations",
+        "actual_results",
+        "surprise_layers",
+        "evidence_refs"
+      ],
+      "title": "HistoricalQuarter",
+      "type": "object"
+    },
+    "HumanReviewReason": {
+      "enum": [
+        "material_dominant_driver",
+        "source_access_limitations"
+      ],
+      "title": "HumanReviewReason",
+      "type": "string"
+    },
+    "LongTermInvestmentView": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DecisionAction"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "evidence_receipt_ids": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Evidence Receipt Ids",
+          "type": "array"
+        },
+        "explicitly_separate": {
+          "const": true,
+          "default": true,
+          "title": "Explicitly Separate",
+          "type": "boolean"
+        },
+        "horizon": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DecisionHorizon"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "rationale": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rationale"
+        }
+      },
+      "title": "LongTermInvestmentView",
+      "type": "object"
+    },
+    "ManagementGuidanceLedgerEntry": {
+      "additionalProperties": false,
+      "description": "Card-field spelling for the complete management guidance ledger type.",
+      "properties": {
+        "actual_evidence_refs": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Actual Evidence Refs",
+          "type": "array"
+        },
+        "eventual_actual": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetricValue"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "eventual_actual_missing_reason": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Eventual Actual Missing Reason"
+        },
+        "evidence_refs": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "guidance": {
+          "$ref": "#/$defs/GuidanceValue"
+        },
+        "guidance_id": {
+          "minLength": 1,
+          "title": "Guidance Id",
+          "type": "string"
+        },
+        "issued_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Issued At"
+        },
+        "issued_fiscal_period": {
+          "$ref": "#/$defs/FiscalPeriod"
+        },
+        "metric": {
+          "$ref": "#/$defs/NormalizedMetric"
+        },
+        "target_fiscal_period": {
+          "$ref": "#/$defs/FiscalPeriod"
+        }
+      },
+      "required": [
+        "guidance_id",
+        "issued_fiscal_period",
+        "target_fiscal_period",
+        "metric",
+        "guidance",
+        "evidence_refs"
+      ],
+      "title": "ManagementGuidanceLedgerEntry",
+      "type": "object"
+    },
+    "MarketReaction": {
+      "additionalProperties": false,
+      "description": "A factual market reaction, explicitly separate from attribution.",
+      "properties": {
+        "attributions": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ReactionAttribution"
+          },
+          "title": "Attributions",
+          "type": "array"
+        },
+        "benchmark": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BenchmarkReaction"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "benchmark_adjusted_returns": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReactionReturnSet"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "calculation_version": {
+          "default": "decimal-v1-prec28-half-even",
+          "title": "Calculation Version",
+          "type": "string"
+        },
+        "event_window": {
+          "$ref": "#/$defs/EventWindowResolution"
+        },
+        "fiscal_period": {
+          "title": "Fiscal Period",
+          "type": "string"
+        },
+        "methodology": {
+          "default": "next-session-open-vs-reference-close-with-supplemental-after-hours",
+          "title": "Methodology",
+          "type": "string"
+        },
+        "methodology_version": {
+          "default": "market-reaction-v4",
+          "title": "Methodology Version",
+          "type": "string"
+        },
+        "prices": {
+          "$ref": "#/$defs/ReactionPriceSet"
+        },
+        "returns": {
+          "$ref": "#/$defs/ReactionReturnSet"
+        },
+        "warnings": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CalculationWarning"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "fiscal_period",
+        "event_window",
+        "prices",
+        "returns"
+      ],
+      "title": "MarketReaction",
+      "type": "object"
+    },
+    "MetricObservation": {
+      "additionalProperties": false,
+      "description": "One immutable, provenance-backed observation of an ontology KPI.",
+      "properties": {
+        "claim_id": {
+          "minLength": 1,
+          "title": "Claim Id",
+          "type": "string"
+        },
+        "claim_type": {
+          "$ref": "#/$defs/ObservationClaimType"
+        },
+        "evidence_receipt_id": {
+          "minLength": 1,
+          "title": "Evidence Receipt Id",
+          "type": "string"
+        },
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "kpi_id": {
+          "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$",
+          "title": "Kpi Id",
+          "type": "string"
+        },
+        "metric": {
+          "$ref": "#/$defs/MetricValue"
+        },
+        "metric_tier": {
+          "$ref": "#/$defs/MetricTier"
+        },
+        "precision": {
+          "$ref": "#/$defs/ObservationPrecision",
+          "default": "exact"
+        },
+        "rounding_decimal_places": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rounding Decimal Places"
+        },
+        "source_ref": {
+          "minLength": 1,
+          "title": "Source Ref",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "kpi_id",
+        "metric_tier",
+        "claim_type",
+        "metric",
+        "claim_id",
+        "evidence_receipt_id",
+        "source_ref"
+      ],
+      "title": "MetricObservation",
+      "type": "object"
+    },
+    "MetricScope": {
+      "enum": [
+        "consolidated",
+        "segment",
+        "product",
+        "geography",
+        "unknown",
+        "not_applicable"
+      ],
+      "title": "MetricScope",
+      "type": "string"
+    },
+    "MetricSurprise": {
+      "additionalProperties": false,
+      "description": "A transparent actual-minus-expectation comparison for a non-EPS metric.",
+      "properties": {
+        "actual": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetricValue"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "delta": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Delta"
+        },
+        "evidence_refs": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "expectation_type": {
+          "$ref": "#/$defs/ConsensusType"
+        },
+        "expected": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetricValue"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "metric": {
+          "$ref": "#/$defs/NormalizedMetric"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        }
+      },
+      "required": [
+        "metric",
+        "expectation_type"
+      ],
+      "title": "MetricSurprise",
+      "type": "object"
+    },
+    "MetricTier": {
+      "description": "Materiality tier used for KPI coverage and review.",
+      "enum": [
+        "tier_1",
+        "tier_2",
+        "tier_3",
+        "tier_4"
+      ],
+      "title": "MetricTier",
+      "type": "string"
+    },
+    "MetricUnit": {
+      "description": "Units are semantic, rather than merely display formatting.",
+      "enum": [
+        "USD",
+        "USD_million",
+        "USD_billion",
+        "USD_per_share",
+        "percent",
+        "percentage_points",
+        "ratio",
+        "count"
+      ],
+      "title": "MetricUnit",
+      "type": "string"
+    },
+    "MetricValue": {
+      "additionalProperties": false,
+      "description": "A numeric metric with non-optional unit, period, bases, and scope.",
+      "properties": {
+        "accounting_basis": {
+          "$ref": "#/$defs/AccountingBasis"
+        },
+        "fiscal_period": {
+          "$ref": "#/$defs/FiscalPeriod"
+        },
+        "growth_basis": {
+          "$ref": "#/$defs/GrowthBasis"
+        },
+        "metric": {
+          "$ref": "#/$defs/NormalizedMetric"
+        },
+        "scope": {
+          "$ref": "#/$defs/MetricScope"
+        },
+        "unit": {
+          "$ref": "#/$defs/MetricUnit"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "metric",
+        "value",
+        "unit",
+        "fiscal_period",
+        "accounting_basis",
+        "growth_basis",
+        "scope"
+      ],
+      "title": "MetricValue",
+      "type": "object"
+    },
+    "NormalizationMapping": {
+      "additionalProperties": false,
+      "description": "Receipt-backed bridge between two explicit EPS accounting bases.",
+      "properties": {
+        "adjustments": {
+          "items": {
+            "$ref": "#/$defs/AccountingAdjustment"
+          },
+          "minItems": 1,
+          "title": "Adjustments",
+          "type": "array"
+        },
+        "mapping_id": {
+          "minLength": 1,
+          "title": "Mapping Id",
+          "type": "string"
+        },
+        "methodology": {
+          "const": "source_eps_minus_adjustments",
+          "default": "source_eps_minus_adjustments",
+          "title": "Methodology",
+          "type": "string"
+        },
+        "receipt_refs": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Receipt Refs",
+          "type": "array"
+        },
+        "source": {
+          "$ref": "#/$defs/MetricValue"
+        },
+        "target": {
+          "$ref": "#/$defs/MetricValue"
+        }
+      },
+      "required": [
+        "mapping_id",
+        "source",
+        "target",
+        "adjustments",
+        "receipt_refs"
+      ],
+      "title": "NormalizationMapping",
+      "type": "object"
+    },
+    "NormalizedMetric": {
+      "description": "Canonical generic financial metric names.\n\nCompany-specific KPI names and provider aliases intentionally belong to a\nlater ontology/extraction layer.",
+      "enum": [
+        "revenue",
+        "gross_profit",
+        "operating_income",
+        "net_income",
+        "eps",
+        "diluted_eps",
+        "adjusted_eps",
+        "free_cash_flow",
+        "operating_margin",
+        "growth",
+        "guidance",
+        "share_count"
+      ],
+      "title": "NormalizedMetric",
+      "type": "string"
+    },
+    "ObservationClaimType": {
+      "description": "Semantic role of a numeric claim; unlike values are not interchangeable.",
+      "enum": [
+        "actual",
+        "management_guidance",
+        "sell_side_consensus",
+        "whisper",
+        "derived",
+        "other"
+      ],
+      "title": "ObservationClaimType",
+      "type": "string"
+    },
+    "ObservationPrecision": {
+      "description": "Source-declared numeric precision, never guessed from prose.",
+      "enum": [
+        "exact",
+        "rounded",
+        "approximate",
+        "unknown"
+      ],
+      "title": "ObservationPrecision",
+      "type": "string"
+    },
+    "PriceObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "close": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Close"
+        },
+        "open": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Open"
+        },
+        "trading_date": {
+          "format": "date",
+          "title": "Trading Date",
+          "type": "string"
+        }
+      },
+      "required": [
+        "trading_date",
+        "close"
+      ],
+      "title": "PriceObservation",
+      "type": "object"
+    },
+    "ProvenanceManifest": {
+      "additionalProperties": false,
+      "properties": {
+        "decision_methodology_version": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Decision Methodology Version"
+        },
+        "evidence_manifest_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Manifest Sha256"
+        },
+        "generated_at": {
+          "format": "date-time",
+          "title": "Generated At",
+          "type": "string"
+        },
+        "normalization_version": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Normalization Version"
+        },
+        "normalized_card_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Normalized Card Sha256"
+        },
+        "ontology_version": {
+          "minLength": 1,
+          "title": "Ontology Version",
+          "type": "string"
+        },
+        "pipeline_commit": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pipeline Commit"
+        },
+        "reaction_version": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reaction Version"
+        },
+        "retrieval_version": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retrieval Version"
+        },
+        "schema_version": {
+          "const": "eventlens.context_card.v4",
+          "default": "eventlens.context_card.v4",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_manifest_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Manifest Sha256"
+        }
+      },
+      "required": [
+        "ontology_version",
+        "generated_at"
+      ],
+      "title": "ProvenanceManifest",
+      "type": "object"
+    },
+    "QualityControl": {
+      "additionalProperties": false,
+      "description": "Persisted QC summary; detailed deterministic findings live in ``qc.py``.\n\nStrings rather than a direct ``QCReport`` reference intentionally avoid a\nmodels/QC import cycle while keeping the canonical JSON forward compatible.",
+      "properties": {
+        "blockers": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Blockers",
+          "type": "array"
+        },
+        "publication_status": {
+          "default": "draft",
+          "enum": [
+            "draft",
+            "blocked",
+            "reviewed",
+            "approved",
+            "stale"
+          ],
+          "title": "Publication Status",
+          "type": "string"
+        },
+        "requires_human_review": {
+          "default": true,
+          "title": "Requires Human Review",
+          "type": "boolean"
+        },
+        "warnings": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "title": "QualityControl",
+      "type": "object"
+    },
+    "ReactionAttribution": {
+      "additionalProperties": false,
+      "description": "A bounded likely-driver interpretation for exactly one reaction window.",
+      "properties": {
+        "alternative_explanations": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Alternative Explanations",
+          "type": "array"
+        },
+        "candidate_drivers": {
+          "items": {
+            "$ref": "#/$defs/AttributionCandidate"
+          },
+          "minItems": 1,
+          "title": "Candidate Drivers",
+          "type": "array"
+        },
+        "classification": {
+          "const": "inferred",
+          "default": "inferred",
+          "title": "Classification",
+          "type": "string"
+        },
+        "confidence": {
+          "$ref": "#/$defs/AttributionConfidence"
+        },
+        "confidence_adjustment_basis": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Confidence Adjustment Basis"
+        },
+        "confidence_rationale": {
+          "minLength": 1,
+          "title": "Confidence Rationale",
+          "type": "string"
+        },
+        "dominant_driver_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dominant Driver Id"
+        },
+        "dominant_driver_language": {
+          "const": "likely_reaction_driver",
+          "default": "likely_reaction_driver",
+          "title": "Dominant Driver Language",
+          "type": "string"
+        },
+        "human_review_reasons": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/HumanReviewReason"
+          },
+          "title": "Human Review Reasons",
+          "type": "array"
+        },
+        "material": {
+          "default": false,
+          "title": "Material",
+          "type": "boolean"
+        },
+        "requires_human_review": {
+          "default": false,
+          "title": "Requires Human Review",
+          "type": "boolean"
+        },
+        "source_access_limitations": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Source Access Limitations",
+          "type": "array"
+        },
+        "window": {
+          "$ref": "#/$defs/AttributionWindow"
+        }
+      },
+      "required": [
+        "window",
+        "candidate_drivers",
+        "confidence",
+        "confidence_rationale"
+      ],
+      "title": "ReactionAttribution",
+      "type": "object"
+    },
+    "ReactionPriceSet": {
+      "additionalProperties": false,
+      "description": "Prices selected for documented post-event reaction windows.\n\n``next_open`` duplicates the first post-event observation's ``open`` so\nconsumers of the canonical card do not need to infer that price from an\nembedded daily bar.",
+      "properties": {
+        "after_hours": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "After Hours"
+        },
+        "after_hours_role": {
+          "const": "supplemental_only",
+          "default": "supplemental_only",
+          "title": "After Hours Role",
+          "type": "string"
+        },
+        "next_open": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Next Open"
+        },
+        "reference": {
+          "$ref": "#/$defs/PriceObservation"
+        },
+        "t_plus_1": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PriceObservation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "t_plus_2": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PriceObservation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "t_plus_5": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PriceObservation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "reference"
+      ],
+      "title": "ReactionPriceSet",
+      "type": "object"
+    },
+    "ReactionReturnSet": {
+      "additionalProperties": false,
+      "description": "Signed decimal returns for AH and post-event reaction windows.\n\nA null value means that its price window was unavailable or incomplete; it\nnever represents a substituted zero return.",
+      "properties": {
+        "after_hours_pct": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "After Hours Pct"
+        },
+        "first_session_intraday_pct": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "First Session Intraday Pct"
+        },
+        "next_session_open_vs_reference_close_pct": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Next Session Open Vs Reference Close Pct"
+        },
+        "overnight_gap_pct": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Overnight Gap Pct"
+        },
+        "t_plus_1_pct": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "T Plus 1 Pct"
+        },
+        "t_plus_2_pct": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "T Plus 2 Pct"
+        },
+        "t_plus_5_pct": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "T Plus 5 Pct"
+        }
+      },
+      "title": "ReactionReturnSet",
+      "type": "object"
+    },
+    "ResolutionStatus": {
+      "enum": [
+        "resolved",
+        "unresolved"
+      ],
+      "title": "ResolutionStatus",
+      "type": "string"
+    },
+    "Scenario": {
+      "additionalProperties": false,
+      "properties": {
+        "calibrated_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Calibrated At"
+        },
+        "calibration_input_receipt_ids": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Calibration Input Receipt Ids",
+          "type": "array"
+        },
+        "calibration_methodology": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Calibration Methodology"
+        },
+        "calibration_status": {
+          "$ref": "#/$defs/ScenarioCalibrationStatus",
+          "default": "insufficient_calibration"
+        },
+        "conditions": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Conditions",
+          "type": "array"
+        },
+        "expected_post_event_return": {
+          "$ref": "#/$defs/DecisionNumericValue"
+        },
+        "invalidations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/DecisionCriterion"
+          },
+          "title": "Invalidations",
+          "type": "array"
+        },
+        "probability": {
+          "$ref": "#/$defs/DecisionNumericValue"
+        },
+        "triggers": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/DecisionCriterion"
+          },
+          "title": "Triggers",
+          "type": "array"
+        }
+      },
+      "title": "Scenario",
+      "type": "object"
+    },
+    "ScenarioCalibrationStatus": {
+      "enum": [
+        "not_evaluated",
+        "insufficient_calibration",
+        "calibrated"
+      ],
+      "title": "ScenarioCalibrationStatus",
+      "type": "string"
+    },
+    "ScenarioModel": {
+      "additionalProperties": false,
+      "properties": {
+        "base": {
+          "$ref": "#/$defs/Scenario"
+        },
+        "bear": {
+          "$ref": "#/$defs/Scenario"
+        },
+        "bull": {
+          "$ref": "#/$defs/Scenario"
+        },
+        "status": {
+          "default": "not_computed",
+          "enum": [
+            "not_computed",
+            "insufficient_calibration",
+            "computed"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "title": "ScenarioModel",
+      "type": "object"
+    },
+    "SemanticClaim": {
+      "additionalProperties": false,
+      "description": "One coherent proposition with a bounded, exact source receipt.",
+      "properties": {
+        "evidence": {
+          "$ref": "#/$defs/EvidenceReceipt"
+        },
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "location": {
+          "$ref": "#/$defs/ClaimLocation"
+        },
+        "metric": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetricValue"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "proposition": {
+          "minLength": 1,
+          "title": "Proposition",
+          "type": "string"
+        },
+        "quality": {
+          "$ref": "#/$defs/ClaimQuality"
+        },
+        "source_ref": {
+          "minLength": 1,
+          "title": "Source Ref",
+          "type": "string"
+        },
+        "topics": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Topics",
+          "type": "array"
+        },
+        "verbatim_receipt": {
+          "minLength": 1,
+          "title": "Verbatim Receipt",
+          "type": "string"
+        },
+        "verbatim_receipt_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Verbatim Receipt Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "proposition",
+        "source_ref",
+        "location",
+        "topics",
+        "quality",
+        "verbatim_receipt",
+        "verbatim_receipt_sha256",
+        "evidence"
+      ],
+      "title": "SemanticClaim",
+      "type": "object"
+    },
+    "SurpriseComparison": {
+      "additionalProperties": false,
+      "description": "Provider arithmetic and normalized economic surprise side by side.",
+      "properties": {
+        "actual": {
+          "$ref": "#/$defs/MetricValue"
+        },
+        "blockers": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Blockers",
+          "type": "array"
+        },
+        "estimate": {
+          "$ref": "#/$defs/MetricValue"
+        },
+        "normalization_mapping_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Normalization Mapping Id"
+        },
+        "normalized": {
+          "$ref": "#/$defs/_NormalizedSurprise"
+        },
+        "provider": {
+          "minLength": 1,
+          "title": "Provider",
+          "type": "string"
+        },
+        "provider_reported": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/_ProviderSurprise"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "estimate",
+        "actual",
+        "provider",
+        "normalized"
+      ],
+      "title": "SurpriseComparison",
+      "type": "object"
+    },
+    "SurpriseLayers": {
+      "additionalProperties": false,
+      "description": "Separate sell-side and prior-guidance surprise layers, never conflated.",
+      "properties": {
+        "eps_vs_sell_side": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SurpriseComparison"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "vs_prior_guidance": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/MetricSurprise"
+          },
+          "title": "Vs Prior Guidance",
+          "type": "array"
+        },
+        "vs_sell_side": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/MetricSurprise"
+          },
+          "title": "Vs Sell Side",
+          "type": "array"
+        }
+      },
+      "title": "SurpriseLayers",
+      "type": "object"
+    },
+    "TemporalClassification": {
+      "description": "Whether the historical observation is native or reconstructed later.",
+      "enum": [
+        "native",
+        "reconstructed"
+      ],
+      "title": "TemporalClassification",
+      "type": "string"
+    },
+    "TemporalConfidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "title": "TemporalConfidence",
+      "type": "string"
+    },
+    "TemporalContext": {
+      "additionalProperties": false,
+      "description": "Complete temporal provenance for one external observation.",
+      "properties": {
+        "available_before_event": {
+          "$ref": "#/$defs/_AvailabilityAssessment"
+        },
+        "classification": {
+          "$ref": "#/$defs/TemporalClassification"
+        },
+        "fact_truth_status": {
+          "$ref": "#/$defs/FactTruthStatus"
+        },
+        "first_known_available_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "First Known Available At"
+        },
+        "historical_event_cutoff": {
+          "format": "date-time",
+          "title": "Historical Event Cutoff",
+          "type": "string"
+        },
+        "provider_observed_at": {
+          "format": "date-time",
+          "title": "Provider Observed At",
+          "type": "string"
+        },
+        "reconstruction": {
+          "$ref": "#/$defs/_ReconstructionState"
+        },
+        "source_published_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Source Published At"
+        },
+        "temporal_confidence": {
+          "$ref": "#/$defs/TemporalConfidence"
+        }
+      },
+      "required": [
+        "source_published_at",
+        "provider_observed_at",
+        "first_known_available_at",
+        "historical_event_cutoff",
+        "available_before_event",
+        "reconstruction",
+        "temporal_confidence",
+        "fact_truth_status",
+        "classification"
+      ],
+      "title": "TemporalContext",
+      "type": "object"
+    },
+    "TemporalState": {
+      "additionalProperties": false,
+      "description": "Event-level cutoff and the observations classified against it.",
+      "properties": {
+        "historical_event_cutoff": {
+          "format": "date-time",
+          "title": "Historical Event Cutoff",
+          "type": "string"
+        },
+        "observations": {
+          "additionalProperties": {
+            "$ref": "#/$defs/TemporalContext"
+          },
+          "propertyNames": {
+            "minLength": 1
+          },
+          "title": "Observations",
+          "type": "object"
+        }
+      },
+      "required": [
+        "historical_event_cutoff"
+      ],
+      "title": "TemporalState",
+      "type": "object"
+    },
+    "ThesisState": {
+      "additionalProperties": false,
+      "properties": {
+        "risks": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/_ThesisItem"
+          },
+          "title": "Risks",
+          "type": "array"
+        },
+        "supports": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/_ThesisItem"
+          },
+          "title": "Supports",
+          "type": "array"
+        },
+        "unresolved": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/_UnresolvedQuestion"
+          },
+          "title": "Unresolved",
+          "type": "array"
+        }
+      },
+      "title": "ThesisState",
+      "type": "object"
+    },
+    "ThresholdMethodology": {
+      "enum": [
+        "scenario_expected_value",
+        "valuation",
+        "implied_move",
+        "technical",
+        "user_constraint"
+      ],
+      "title": "ThresholdMethodology",
+      "type": "string"
+    },
+    "ThresholdStatus": {
+      "enum": [
+        "unknown",
+        "not_computed",
+        "computed",
+        "removed_due_to_unverifiable_derivation"
+      ],
+      "title": "ThresholdStatus",
+      "type": "string"
+    },
+    "Tier1Observation": {
+      "additionalProperties": false,
+      "description": "One required issuer-ontology observation, including an honest absence.",
+      "properties": {
+        "available_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Available At"
+        },
+        "basis": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Basis"
+        },
+        "char_end": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Char End"
+        },
+        "char_start": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Char Start"
+        },
+        "conversion_provenance": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Conversion Provenance"
+        },
+        "fiscal_period": {
+          "minLength": 1,
+          "title": "Fiscal Period",
+          "type": "string"
+        },
+        "missing_reason": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Missing Reason"
+        },
+        "ontology_key": {
+          "minLength": 1,
+          "title": "Ontology Key",
+          "type": "string"
+        },
+        "original_unit": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Original Unit"
+        },
+        "original_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Original Value"
+        },
+        "passage_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Passage Sha256"
+        },
+        "source_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Sha256"
+        },
+        "source_text_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Text Sha256"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        },
+        "status": {
+          "default": "proposed_human_review_pending",
+          "enum": [
+            "proposed_human_review_pending",
+            "approved"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "view": {
+          "enum": [
+            "quarterly",
+            "latest_q4_current_state"
+          ],
+          "title": "View",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ontology_key",
+        "view",
+        "fiscal_period"
+      ],
+      "title": "Tier1Observation",
+      "type": "object"
+    },
+    "_AvailabilityAssessment": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "value": {
+          "$ref": "#/$defs/AvailabilityValue"
+        }
+      },
+      "required": [
+        "value",
+        "evidence"
+      ],
+      "title": "_AvailabilityAssessment",
+      "type": "object"
+    },
+    "_NormalizedSurprise": {
+      "additionalProperties": false,
+      "properties": {
+        "reason": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        },
+        "status": {
+          "enum": [
+            "computed",
+            "blocked"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "_NormalizedSurprise",
+      "type": "object"
+    },
+    "_ProviderSurprise": {
+      "additionalProperties": false,
+      "properties": {
+        "valid_arithmetic": {
+          "title": "Valid Arithmetic",
+          "type": "boolean"
+        },
+        "valid_economic_comparison": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "const": "unknown",
+              "type": "string"
+            }
+          ],
+          "title": "Valid Economic Comparison"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "value",
+        "valid_arithmetic",
+        "valid_economic_comparison"
+      ],
+      "title": "_ProviderSurprise",
+      "type": "object"
+    },
+    "_ReconstructionState": {
+      "additionalProperties": false,
+      "properties": {
+        "is_reconstructed": {
+          "title": "Is Reconstructed",
+          "type": "boolean"
+        },
+        "reconstructed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reconstructed At"
+        }
+      },
+      "required": [
+        "is_reconstructed",
+        "reconstructed_at"
+      ],
+      "title": "_ReconstructionState",
+      "type": "object"
+    },
+    "_ThesisItem": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "default": "unknown",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "unknown"
+          ],
+          "title": "Confidence",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "statement": {
+          "minLength": 1,
+          "title": "Statement",
+          "type": "string"
+        },
+        "thesis_id": {
+          "minLength": 1,
+          "title": "Thesis Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "thesis_id",
+        "statement"
+      ],
+      "title": "_ThesisItem",
+      "type": "object"
+    },
+    "_UnknownSafeNumber": {
+      "additionalProperties": false,
+      "description": "A numeric slot that cannot turn an explicit unknown into false precision.",
+      "properties": {
+        "status": {
+          "default": "unknown",
+          "enum": [
+            "known",
+            "computed",
+            "not_computed",
+            "unknown",
+            "insufficient_calibration",
+            "removed_due_to_unverifiable_derivation"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "title": "_UnknownSafeNumber",
+      "type": "object"
+    },
+    "_UnresolvedQuestion": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_required": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Evidence Required",
+          "type": "array"
+        },
+        "importance": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "title": "Importance",
+          "type": "string"
+        },
+        "question": {
+          "minLength": 1,
+          "title": "Question",
+          "type": "string"
+        },
+        "question_id": {
+          "minLength": 1,
+          "title": "Question Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "question_id",
+        "question",
+        "importance"
+      ],
+      "title": "_UnresolvedQuestion",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Canonical v4 card envelope.\n\nCollection fields reserved for later tickets deliberately accept only\nidentifiers here, preventing Ticket 1 from inventing population semantics.",
+  "properties": {
+    "company_ontology": {
+      "$ref": "#/$defs/CompanyOntology"
+    },
+    "conflicts": {
+      "items": {
+        "$ref": "#/$defs/Conflict"
+      },
+      "title": "Conflicts",
+      "type": "array"
+    },
+    "consensus_state": {
+      "$ref": "#/$defs/ConsensusState"
+    },
+    "current_pre_event_state": {
+      "$ref": "#/$defs/CurrentPreEventState"
+    },
+    "decision": {
+      "$ref": "#/$defs/Decision"
+    },
+    "decision_context": {
+      "$ref": "#/$defs/DecisionContext"
+    },
+    "evidence_registry": {
+      "$ref": "#/$defs/EvidenceRegistry"
+    },
+    "historical_quarters": {
+      "items": {
+        "$ref": "#/$defs/HistoricalQuarter"
+      },
+      "title": "Historical Quarters",
+      "type": "array"
+    },
+    "identity": {
+      "$ref": "#/$defs/CardIdentity"
+    },
+    "management_guidance_ledger": {
+      "items": {
+        "$ref": "#/$defs/ManagementGuidanceLedgerEntry"
+      },
+      "title": "Management Guidance Ledger",
+      "type": "array"
+    },
+    "market_reaction_history": {
+      "items": {
+        "$ref": "#/$defs/MarketReaction"
+      },
+      "title": "Market Reaction History",
+      "type": "array"
+    },
+    "provenance": {
+      "$ref": "#/$defs/ProvenanceManifest"
+    },
+    "quality_control": {
+      "$ref": "#/$defs/QualityControl"
+    },
+    "scenario_model": {
+      "$ref": "#/$defs/ScenarioModel"
+    },
+    "schema_version": {
+      "const": "eventlens.context_card.v4",
+      "default": "eventlens.context_card.v4",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "temporal_state": {
+      "$ref": "#/$defs/TemporalState"
+    },
+    "thesis_state": {
+      "$ref": "#/$defs/ThesisState"
+    },
+    "tier_1_observations": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Tier1Observation"
+      },
+      "title": "Tier 1 Observations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "identity",
+    "temporal_state",
+    "decision_context",
+    "current_pre_event_state",
+    "company_ontology",
+    "historical_quarters",
+    "management_guidance_ledger",
+    "consensus_state",
+    "market_reaction_history",
+    "thesis_state",
+    "scenario_model",
+    "decision",
+    "evidence_registry",
+    "conflicts",
+    "quality_control",
+    "provenance"
+  ],
+  "title": "ContextCardV4",
+  "type": "object"
+}

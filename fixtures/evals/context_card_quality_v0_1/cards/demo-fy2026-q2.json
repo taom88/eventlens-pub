@@ -1,0 +1,632 @@
+{
+  "approved_at": null,
+  "approved_by": null,
+  "available_at": "2026-11-08T20:00:00Z",
+  "canonical_card": {
+    "company_ontology": {
+      "ontology_id": "universal",
+      "reference": "package://eventlens.ontologies.vintages/universal/1.0.0.yaml",
+      "version": "1.0.0"
+    },
+    "conflicts": [],
+    "consensus_state": {
+      "blockers": [
+        "Historical cutoff-native sell-side consensus was not collected."
+      ],
+      "eps": null,
+      "fiscal_period": "FY2026_Q2",
+      "metrics": {},
+      "status": "missing"
+    },
+    "current_pre_event_state": {
+      "ai_state": {},
+      "capacity_state": null,
+      "current_management_guidance": {},
+      "current_management_guidance_qualitative": {},
+      "earnings_quality": null,
+      "latest_actuals": {},
+      "latest_reported_fiscal_period": null
+    },
+    "decision": {
+      "action": null,
+      "confidence": null,
+      "currency": null,
+      "decision_support_notice": "Decision support only; not personalized financial advice or trade execution.",
+      "decision_type": null,
+      "entry_threshold": {
+        "computed_at": null,
+        "currency": null,
+        "inputs": [],
+        "methodology": null,
+        "methodology_status": "proposed_pending_analyst_review",
+        "sensitivity": null,
+        "status": "not_computed",
+        "value": null
+      },
+      "horizon": null,
+      "long_term_view": {
+        "action": null,
+        "evidence_receipt_ids": [],
+        "explicitly_separate": true,
+        "horizon": null,
+        "rationale": null
+      },
+      "methodology_status": "proposed_pending_analyst_review",
+      "overall_confidence": null,
+      "overall_confidence_level": "unknown",
+      "rationale": null,
+      "reference_price": null,
+      "reference_price_at": null,
+      "scenarios": [],
+      "status": "not_evaluated",
+      "trace": null
+    },
+    "decision_context": {
+      "currency": "USD",
+      "decision_status": "not_evaluated",
+      "decision_type": "pre_earnings_event_trade",
+      "entry_threshold": {
+        "computed_at": null,
+        "currency": null,
+        "inputs": [],
+        "methodology": null,
+        "methodology_status": "proposed_pending_analyst_review",
+        "sensitivity": null,
+        "status": "not_computed",
+        "value": null
+      },
+      "horizon_end": null,
+      "horizon_start": null,
+      "long_term_view_explicitly_separate": true,
+      "reference_price": {
+        "status": "unknown",
+        "value": null
+      }
+    },
+    "evidence_registry": {
+      "receipts": [
+        {
+          "claim": "The issuer reported second-quarter results.",
+          "claims_causation": false,
+          "confidence": null,
+          "evidence_class": "source_native",
+          "id": "issuer-results:DEMO:2026-08-10:FY2026Q2",
+          "input_receipt_ids": [],
+          "operands_validated": false,
+          "source_ref": "https://example.com/issuer/demo-q2#fact-manifest-sha256=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "temporal_context_ref": null
+        },
+        {
+          "claim": "Normalized DEMO OHLCV observations used for market metrics.",
+          "claims_causation": false,
+          "confidence": null,
+          "evidence_class": "source_native",
+          "id": "market-history:DEMO:DEMO:2026-08-10:FY2026Q2",
+          "input_receipt_ids": [],
+          "operands_validated": false,
+          "source_ref": "yfinance:DEMO#sha256=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "temporal_context_ref": null
+        },
+        {
+          "claim": "Normalized SPY OHLCV benchmark observations.",
+          "claims_causation": false,
+          "confidence": null,
+          "evidence_class": "source_native",
+          "id": "market-history:SPY:DEMO:2026-08-10:FY2026Q2",
+          "input_receipt_ids": [],
+          "operands_validated": false,
+          "source_ref": "yfinance:SPY#sha256=cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "temporal_context_ref": null
+        },
+        {
+          "claim": "Deterministic factual reaction windows; no causal attribution was made.",
+          "claims_causation": false,
+          "confidence": null,
+          "evidence_class": "derived",
+          "id": "market-reaction:DEMO:2026-08-10:FY2026Q2",
+          "input_receipt_ids": [
+            "market-history:DEMO:DEMO:2026-08-10:FY2026Q2",
+            "market-history:SPY:DEMO:2026-08-10:FY2026Q2"
+          ],
+          "operands_validated": true,
+          "source_ref": null,
+          "temporal_context_ref": null
+        },
+        {
+          "claim": "No cutoff-native historical sell-side estimate was available to this run.",
+          "claims_causation": false,
+          "confidence": null,
+          "evidence_class": "reconstructed",
+          "id": "historical-consensus-unavailable:DEMO:2026-08-10:FY2026Q2",
+          "input_receipt_ids": [],
+          "operands_validated": false,
+          "source_ref": "eventlens-missingness:historical-consensus-not-collected",
+          "temporal_context_ref": null
+        }
+      ],
+      "semantic_claims": []
+    },
+    "historical_quarters": [
+      {
+        "actual_results": {
+          "earnings_quality": null,
+          "evidence_refs": [
+            "issuer-results:DEMO:2026-08-10:FY2026Q2"
+          ],
+          "fiscal_period": {
+            "fiscal_quarter": 2,
+            "fiscal_year": 2026,
+            "period_end": "2026-06-30"
+          },
+          "metrics": {
+            "revenue": {
+              "accounting_basis": "gaap",
+              "fiscal_period": {
+                "fiscal_quarter": 2,
+                "fiscal_year": 2026,
+                "period_end": "2026-06-30"
+              },
+              "growth_basis": "not_applicable",
+              "metric": "revenue",
+              "scope": "consolidated",
+              "unit": "USD_million",
+              "value": "123.456"
+            }
+          },
+          "missing_metric_reasons": {}
+        },
+        "event_timestamp_evidence": null,
+        "evidence_refs": [
+          "issuer-results:DEMO:2026-08-10:FY2026Q2",
+          "market-reaction:DEMO:2026-08-10:FY2026Q2"
+        ],
+        "expectations": [
+          {
+            "availability_status": "unknown",
+            "consensus_type": "sell_side",
+            "eps": null,
+            "evidence_refs": [
+              "historical-consensus-unavailable:DEMO:2026-08-10:FY2026Q2"
+            ],
+            "fiscal_period": {
+              "fiscal_quarter": 2,
+              "fiscal_year": 2026,
+              "period_end": "2026-06-30"
+            },
+            "metrics": {},
+            "missing_metric_reasons": {},
+            "prior_guidance": []
+          }
+        ],
+        "fiscal_period": {
+          "fiscal_quarter": 2,
+          "fiscal_year": 2026,
+          "period_end": "2026-06-30"
+        },
+        "forward_guidance": [],
+        "reaction": {
+          "attributions": [],
+          "benchmark": {
+            "methodology": "next-session-open-vs-reference-close-with-supplemental-after-hours",
+            "methodology_version": "market-reaction-v4",
+            "prices": {
+              "after_hours": null,
+              "after_hours_role": "supplemental_only",
+              "next_open": "201",
+              "reference": {
+                "close": "201",
+                "open": "200",
+                "trading_date": "2026-08-10"
+              },
+              "t_plus_1": {
+                "close": "202",
+                "open": "201",
+                "trading_date": "2026-08-11"
+              },
+              "t_plus_2": {
+                "close": "203",
+                "open": "202",
+                "trading_date": "2026-08-12"
+              },
+              "t_plus_5": {
+                "close": "206",
+                "open": "205",
+                "trading_date": "2026-08-17"
+              }
+            },
+            "returns": {
+              "after_hours_pct": null,
+              "first_session_intraday_pct": "0.004975124378109452736318408",
+              "next_session_open_vs_reference_close_pct": "0",
+              "overnight_gap_pct": "0",
+              "t_plus_1_pct": "0.004975124378109452736318408",
+              "t_plus_2_pct": "0.009950248756218905472636816",
+              "t_plus_5_pct": "0.024875621890547263681592040"
+            },
+            "ticker": "SPY",
+            "warnings": [
+              {
+                "code": "after_hours_price_missing",
+                "message": "After-hours price is unavailable; after-hours return remains null."
+              }
+            ]
+          },
+          "benchmark_adjusted_returns": {
+            "after_hours_pct": null,
+            "first_session_intraday_pct": null,
+            "next_session_open_vs_reference_close_pct": null,
+            "overnight_gap_pct": null,
+            "t_plus_1_pct": "0.004925865720900448253780602",
+            "t_plus_2_pct": "0.009851731441800896507561204",
+            "t_plus_5_pct": "0.024629328604502241268903010"
+          },
+          "calculation_version": "decimal-v1-prec28-half-even",
+          "event_window": {
+            "effective_timing": "after_market_close",
+            "event_date": "2026-08-10",
+            "fifth_post_event_trading_date": "2026-08-17",
+            "first_post_event_trading_date": "2026-08-11",
+            "method": "supplied_ordered_trading_dates",
+            "reference_trading_date": "2026-08-10",
+            "reported_timing": "after_market_close",
+            "resolved_post_event_trading_dates": [
+              "2026-08-11",
+              "2026-08-12",
+              "2026-08-13",
+              "2026-08-14",
+              "2026-08-17"
+            ],
+            "warnings": []
+          },
+          "fiscal_period": "FY2026_Q2",
+          "methodology": "next-session-open-vs-reference-close-with-supplemental-after-hours",
+          "methodology_version": "market-reaction-v4",
+          "prices": {
+            "after_hours": null,
+            "after_hours_role": "supplemental_only",
+            "next_open": "101",
+            "reference": {
+              "close": "101",
+              "open": "100",
+              "trading_date": "2026-08-10"
+            },
+            "t_plus_1": {
+              "close": "102",
+              "open": "101",
+              "trading_date": "2026-08-11"
+            },
+            "t_plus_2": {
+              "close": "103",
+              "open": "102",
+              "trading_date": "2026-08-12"
+            },
+            "t_plus_5": {
+              "close": "106",
+              "open": "105",
+              "trading_date": "2026-08-17"
+            }
+          },
+          "returns": {
+            "after_hours_pct": null,
+            "first_session_intraday_pct": "0.009900990099009900990099010",
+            "next_session_open_vs_reference_close_pct": "0",
+            "overnight_gap_pct": "0",
+            "t_plus_1_pct": "0.009900990099009900990099010",
+            "t_plus_2_pct": "0.019801980198019801980198020",
+            "t_plus_5_pct": "0.049504950495049504950495050"
+          },
+          "warnings": [
+            {
+              "code": "after_hours_price_missing",
+              "message": "After-hours price is unavailable; after-hours return remains null."
+            }
+          ]
+        },
+        "reaction_missing_reason": null,
+        "surprise_layers": {
+          "eps_vs_sell_side": null,
+          "vs_prior_guidance": [],
+          "vs_sell_side": []
+        }
+      }
+    ],
+    "identity": {
+      "card": {
+        "as_of": "2026-11-08T20:00:00Z",
+        "generated_at": "2026-11-08T20:00:00Z",
+        "sha256": null,
+        "status": "reviewed",
+        "version": 4
+      },
+      "company": "Example Systems, Inc.",
+      "event": {
+        "event_datetime": "2026-08-10T21:00:00Z",
+        "event_datetime_status": "confirmed",
+        "fiscal_period": "FY2026_Q2",
+        "timezone": "America/New_York",
+        "type": "earnings"
+      },
+      "ticker": "DEMO"
+    },
+    "management_guidance_ledger": [],
+    "market_reaction_history": [
+      {
+        "attributions": [],
+        "benchmark": {
+          "methodology": "next-session-open-vs-reference-close-with-supplemental-after-hours",
+          "methodology_version": "market-reaction-v4",
+          "prices": {
+            "after_hours": null,
+            "after_hours_role": "supplemental_only",
+            "next_open": "201",
+            "reference": {
+              "close": "201",
+              "open": "200",
+              "trading_date": "2026-08-10"
+            },
+            "t_plus_1": {
+              "close": "202",
+              "open": "201",
+              "trading_date": "2026-08-11"
+            },
+            "t_plus_2": {
+              "close": "203",
+              "open": "202",
+              "trading_date": "2026-08-12"
+            },
+            "t_plus_5": {
+              "close": "206",
+              "open": "205",
+              "trading_date": "2026-08-17"
+            }
+          },
+          "returns": {
+            "after_hours_pct": null,
+            "first_session_intraday_pct": "0.004975124378109452736318408",
+            "next_session_open_vs_reference_close_pct": "0",
+            "overnight_gap_pct": "0",
+            "t_plus_1_pct": "0.004975124378109452736318408",
+            "t_plus_2_pct": "0.009950248756218905472636816",
+            "t_plus_5_pct": "0.024875621890547263681592040"
+          },
+          "ticker": "SPY",
+          "warnings": [
+            {
+              "code": "after_hours_price_missing",
+              "message": "After-hours price is unavailable; after-hours return remains null."
+            }
+          ]
+        },
+        "benchmark_adjusted_returns": {
+          "after_hours_pct": null,
+          "first_session_intraday_pct": null,
+          "next_session_open_vs_reference_close_pct": null,
+          "overnight_gap_pct": null,
+          "t_plus_1_pct": "0.004925865720900448253780602",
+          "t_plus_2_pct": "0.009851731441800896507561204",
+          "t_plus_5_pct": "0.024629328604502241268903010"
+        },
+        "calculation_version": "decimal-v1-prec28-half-even",
+        "event_window": {
+          "effective_timing": "after_market_close",
+          "event_date": "2026-08-10",
+          "fifth_post_event_trading_date": "2026-08-17",
+          "first_post_event_trading_date": "2026-08-11",
+          "method": "supplied_ordered_trading_dates",
+          "reference_trading_date": "2026-08-10",
+          "reported_timing": "after_market_close",
+          "resolved_post_event_trading_dates": [
+            "2026-08-11",
+            "2026-08-12",
+            "2026-08-13",
+            "2026-08-14",
+            "2026-08-17"
+          ],
+          "warnings": []
+        },
+        "fiscal_period": "FY2026_Q2",
+        "methodology": "next-session-open-vs-reference-close-with-supplemental-after-hours",
+        "methodology_version": "market-reaction-v4",
+        "prices": {
+          "after_hours": null,
+          "after_hours_role": "supplemental_only",
+          "next_open": "101",
+          "reference": {
+            "close": "101",
+            "open": "100",
+            "trading_date": "2026-08-10"
+          },
+          "t_plus_1": {
+            "close": "102",
+            "open": "101",
+            "trading_date": "2026-08-11"
+          },
+          "t_plus_2": {
+            "close": "103",
+            "open": "102",
+            "trading_date": "2026-08-12"
+          },
+          "t_plus_5": {
+            "close": "106",
+            "open": "105",
+            "trading_date": "2026-08-17"
+          }
+        },
+        "returns": {
+          "after_hours_pct": null,
+          "first_session_intraday_pct": "0.009900990099009900990099010",
+          "next_session_open_vs_reference_close_pct": "0",
+          "overnight_gap_pct": "0",
+          "t_plus_1_pct": "0.009900990099009900990099010",
+          "t_plus_2_pct": "0.019801980198019801980198020",
+          "t_plus_5_pct": "0.049504950495049504950495050"
+        },
+        "warnings": [
+          {
+            "code": "after_hours_price_missing",
+            "message": "After-hours price is unavailable; after-hours return remains null."
+          }
+        ]
+      }
+    ],
+    "provenance": {
+      "decision_methodology_version": null,
+      "evidence_manifest_sha256": null,
+      "generated_at": "2026-11-08T20:00:00Z",
+      "normalization_version": "context-card-v4",
+      "normalized_card_sha256": null,
+      "ontology_version": "1.0.0",
+      "pipeline_commit": null,
+      "reaction_version": "market-reaction-v4",
+      "retrieval_version": "historical-context-card-v1",
+      "schema_version": "eventlens.context_card.v4",
+      "source_manifest_sha256": "d34f8e6375e90d020a2e3c0920a331fbbdd659539342dd2862f0361e032646ba"
+    },
+    "quality_control": {
+      "blockers": [],
+      "publication_status": "reviewed",
+      "requires_human_review": true,
+      "warnings": [
+        "Historical sell-side consensus was not collected."
+      ]
+    },
+    "scenario_model": {
+      "base": {
+        "calibrated_at": null,
+        "calibration_input_receipt_ids": [],
+        "calibration_methodology": null,
+        "calibration_status": "insufficient_calibration",
+        "conditions": [],
+        "expected_post_event_return": {
+          "status": "insufficient_calibration",
+          "value": null
+        },
+        "invalidations": [],
+        "probability": {
+          "status": "insufficient_calibration",
+          "value": null
+        },
+        "triggers": []
+      },
+      "bear": {
+        "calibrated_at": null,
+        "calibration_input_receipt_ids": [],
+        "calibration_methodology": null,
+        "calibration_status": "insufficient_calibration",
+        "conditions": [],
+        "expected_post_event_return": {
+          "status": "insufficient_calibration",
+          "value": null
+        },
+        "invalidations": [],
+        "probability": {
+          "status": "insufficient_calibration",
+          "value": null
+        },
+        "triggers": []
+      },
+      "bull": {
+        "calibrated_at": null,
+        "calibration_input_receipt_ids": [],
+        "calibration_methodology": null,
+        "calibration_status": "insufficient_calibration",
+        "conditions": [],
+        "expected_post_event_return": {
+          "status": "insufficient_calibration",
+          "value": null
+        },
+        "invalidations": [],
+        "probability": {
+          "status": "insufficient_calibration",
+          "value": null
+        },
+        "triggers": []
+      },
+      "status": "not_computed"
+    },
+    "schema_version": "eventlens.context_card.v4",
+    "temporal_state": {
+      "historical_event_cutoff": "2026-08-10T19:30:00Z",
+      "observations": {}
+    },
+    "thesis_state": {
+      "risks": [],
+      "supports": [],
+      "unresolved": []
+    },
+    "tier_1_observations": []
+  },
+  "card_id": "demo-fy2026-q2-2026-08-10-v1",
+  "citation_uri": "eventlens-context-card:demo-fy2026-q2-2026-08-10-v1",
+  "content_sha256": "336ce75bf05afca89795134492a1b05c72df31e78c47304d184454de4a409990",
+  "data_quality_caveats": [
+    "Historical sell-side consensus was not collected."
+  ],
+  "event_date": "2026-08-10",
+  "event_id": "DEMO:2026-08-10:FY2026Q2",
+  "executive_summary": "Revenue grew while profitability remained mixed.",
+  "key_messages": [
+    "Revenue increased.",
+    "The reaction is descriptive."
+  ],
+  "knowledge_cutoff_at": "2026-11-08T20:00:00Z",
+  "management_guidance_availability": {
+    "reason": "No cutoff-native management-guidance evidence was supplied to the historical-card builder; issuer-level absence was not validated.",
+    "status": "unavailable"
+  },
+  "metric_interpretation": "GAAP revenue is kept separate from non-GAAP measures.",
+  "native_news_summary": null,
+  "news_evidence_binding": null,
+  "pre_event_features": {
+    "article_count": 0,
+    "cutoff_at": "2026-08-10T19:30:00Z",
+    "event_date": "2026-08-10",
+    "event_id": "DEMO:2026-08-10:FY2026Q2",
+    "latest_close": "48",
+    "mean_ticker_relevance": null,
+    "missing_values": [
+      {
+        "field": "weighted_sentiment",
+        "reason": "No authorized news provider was configured."
+      }
+    ],
+    "prior_20d_average_volume": "20000000",
+    "prior_20d_return_pct": "0.12",
+    "prior_5d_return_pct": "0.03",
+    "provenance_manifest": {},
+    "realized_outcome_status": "not_attached",
+    "recency_weighted_sentiment": null,
+    "recommendation_status": "not_generated",
+    "sentiment_positive_share": null,
+    "sentiment_recency_half_life_days": "7",
+    "source_count": 0,
+    "ticker": "DEMO",
+    "topic_counts": {},
+    "weighted_sentiment": null
+  },
+  "provenance_links": [
+    "https://example.com/issuer/demo-q2",
+    "yfinance:DEMO#sha256=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "yfinance:SPY#sha256=cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  ],
+  "reaction_interpretation": "The next-session response is factual, not causal.",
+  "reaction_metrics": {
+    "absolute_next_session_open_move_pct": "0",
+    "after_hours_return_pct": null,
+    "missing_values": [
+      {
+        "field": "after_hours_return_pct",
+        "reason": "No retained after-hours quote was available; no value was inferred."
+      }
+    ],
+    "next_session_open_vs_reference_close_pct": "0",
+    "reference_session_volume_vs_prior_20d": "1.5",
+    "t_plus_1_close_return_pct": "0.009900990099009900990099010",
+    "t_plus_5_close_return_pct": "0.049504950495049504950495050"
+  },
+  "reconstructed_eps_context": null,
+  "schema_version": "eventlens.historical-context-card.v1",
+  "status": "reviewed",
+  "target_cutoff_at": "2026-11-09T20:30:00Z",
+  "ticker": "DEMO"
+}

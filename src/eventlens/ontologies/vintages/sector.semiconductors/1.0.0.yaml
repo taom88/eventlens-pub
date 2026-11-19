@@ -1,0 +1,17 @@
+schema_version: "1.0"
+ontology_id: sector.semiconductors
+layer_type: sector
+version: 1.0.0
+released_at: "2026-10-25T00:00:00Z"
+effective_from: "2026-10-25T00:00:00Z"
+extends: [universal]
+parent_pins:
+  - {ontology_id: universal, version: 1.0.0, layer_sha256: 83aa2b0af10639212f55b1281169438cf8b9648d358261f50f04d3075b387434}
+overrides: []
+slots:
+  - {slot_id: semiconductor.data_center_growth, definition: Data-center segment year-over-year revenue growth., aliases: [data center revenue growth, datacenter sales growth], data_type: decimal, unit: percent, cadence: quarterly, source_priority: [issuer_release, issuer_filing], freshness: {max_age_days: 180, stale_behavior: warn}, materiality: critical, extraction_mode: deterministic, validators: [], required_uses: [pre_earnings_thesis, valuation], citation_policy: required, missing_value_policy: block_release}
+  - {slot_id: semiconductor.supply_capacity, definition: Available and planned wafer packaging or memory capacity., aliases: [semiconductor capacity, supply capacity], data_type: text, unit: text, cadence: event, source_priority: [transcript, issuer_release], freshness: {max_age_days: 120, stale_behavior: warn}, materiality: critical, extraction_mode: llm_structured, validators: [], required_uses: [pre_earnings_thesis, risk], citation_policy: required, missing_value_policy: block_release}
+  - {slot_id: semiconductor.pricing, definition: Product pricing trend on the declared basis., aliases: [chip pricing trend, average selling price trend], data_type: text, unit: text, cadence: quarterly, source_priority: [transcript, issuer_release], freshness: {max_age_days: 180, stale_behavior: warn}, materiality: high, extraction_mode: llm_structured, validators: [], required_uses: [pre_earnings_thesis, valuation], citation_policy: required, missing_value_policy: degrade}
+  - {slot_id: semiconductor.gross_margin, definition: Consolidated or segment gross margin with basis., aliases: [semiconductor gross margin, product gross margin], data_type: decimal, unit: percent, cadence: quarterly, source_priority: [issuer_release, issuer_filing], freshness: {max_age_days: 180, stale_behavior: warn}, materiality: critical, extraction_mode: deterministic, validators: [], required_uses: [pre_earnings_thesis, valuation], citation_policy: required, missing_value_policy: block_release}
+  - {slot_id: semiconductor.inventory_days, definition: Inventory days or equivalent inventory-cycle indicator., aliases: [inventory days, days inventory outstanding], data_type: decimal, unit: days, cadence: quarterly, source_priority: [issuer_filing, issuer_release], freshness: {max_age_days: 180, stale_behavior: warn}, materiality: high, extraction_mode: deterministic, validators: [], required_uses: [pre_earnings_thesis, risk], citation_policy: required, missing_value_policy: degrade}
+  - {slot_id: semiconductor.capex_intensity, definition: Capital expenditure relative to revenue., aliases: [capex intensity, capital intensity ratio], data_type: decimal, unit: percent, cadence: quarterly, source_priority: [issuer_filing, issuer_release], freshness: {max_age_days: 180, stale_behavior: warn}, materiality: high, extraction_mode: deterministic, validators: [], required_uses: [valuation, risk], citation_policy: required, missing_value_policy: degrade}

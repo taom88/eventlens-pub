@@ -1,0 +1,49 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "eventlens"
+version = "0.1.0"
+description = "Cutoff-aware research workflows for company events"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.11"
+authors = [{ name = "EventLens contributors" }]
+dependencies = [
+  "exchange-calendars>=4.11,<5",
+  "httpx>=0.28,<1",
+  "pydantic>=2.13,<2.14",
+  "PyYAML>=6,<7",
+  "streamlit>=1.41,<2",
+]
+
+[project.optional-dependencies]
+dev = [
+  "hatchling>=1.27,<2",
+  "pytest>=8,<10",
+]
+free-data = [
+  "yfinance>=0.2.30",
+]
+vibe = [
+  "vibe-trading-ai==0.1.11",
+]
+
+[project.scripts]
+eventlens = "eventlens.app.commands:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/eventlens"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"schemas" = "eventlens/schemas"
+"fixtures/d0/demo" = "eventlens/fixtures/d0/demo"
+"fixtures/DEMO.json" = "eventlens/fixtures/DEMO.json"
+"fixtures/external_agent" = "eventlens/fixtures/external_agent"
+"docs/external-agent-operator.md" = "eventlens/docs/external-agent-operator.md"
+
+[tool.pytest.ini_options]
+addopts = "-ra --import-mode=importlib"
+testpaths = ["tests"]
+pythonpath = ["src"]

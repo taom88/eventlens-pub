@@ -1,0 +1,66 @@
+{
+  "available_at": "2026-02-06T12:00:00Z",
+  "card_id": "demo-d0-q4-2025",
+  "content_sha256": "a2874055c54a56ae333d5bb02e775dada35b8ec70897aed89cb4058ed920e8ce",
+  "data_quality_caveats": [
+    "Synthetic fixture data; not a live provider observation.",
+    "This single event is descriptive and does not establish causation."
+  ],
+  "event_date": "2026-02-05",
+  "event_id": "DEMO:2026-02-05:2025Q4",
+  "executive_summary": "Example Systems's fourth-quarter fixture replay emphasizes the distinction between reported operating progress and an uncertain market reaction.",
+  "key_messages": [
+    "Reported operating progress is separated from the price reaction.",
+    "The fixture does not contain a company-specific valuation conclusion."
+  ],
+  "knowledge_cutoff_at": "2026-02-06T12:00:00Z",
+  "metric_interpretation": "Historical reaction observations are sample evidence only; they do not become a recommendation or a valuation range.",
+  "origin": "fixture_replay",
+  "outcome_available_at": "2026-02-06T00:00:00Z",
+  "pre_event_features": {
+    "article_count": 0,
+    "latest_close": "242.05",
+    "mean_ticker_relevance": null,
+    "missing_values": [
+      {
+        "field": "mean_ticker_relevance",
+        "reason": "Provider-native news sentiment was not persisted in the key-free fixture replay."
+      },
+      {
+        "field": "weighted_sentiment",
+        "reason": "Provider-native news sentiment was not persisted in the key-free fixture replay."
+      },
+      {
+        "field": "recency_weighted_sentiment",
+        "reason": "Provider-native news sentiment was not persisted in the key-free fixture replay."
+      },
+      {
+        "field": "sentiment_positive_share",
+        "reason": "Provider-native news sentiment was not persisted in the key-free fixture replay."
+      }
+    ],
+    "prior_20d_return_pct": "-0.017",
+    "prior_5d_return_pct": "0.006",
+    "recency_weighted_sentiment": null,
+    "sentiment_positive_share": null,
+    "source_count": 0,
+    "weighted_sentiment": null
+  },
+  "provenance_links": [
+    "fixture://d0/demo/cards/demo-d0-q4-2025"
+  ],
+  "reaction_metrics": {
+    "absolute_next_session_open_move_pct": "1.70",
+    "after_hours_return_pct": null,
+    "missing_values": [
+      {
+        "field": "after_hours_return_pct",
+        "reason": "After-hours price was not retained in the fixture replay."
+      }
+    ],
+    "next_session_open_vs_reference_close_pct": "-1.70",
+    "t_plus_1_close_return_pct": "-1.35",
+    "t_plus_5_close_return_pct": "-0.20"
+  },
+  "ticker": "DEMO"
+}

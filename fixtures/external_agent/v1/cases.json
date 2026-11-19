@@ -1,0 +1,934 @@
+{
+  "bundle": {
+    "allowed_skills": [],
+    "allowed_tools": [],
+    "built_at": "2026-10-24T16:00:00Z",
+    "bundle_id": "fixture-demo-2026q3-r1",
+    "bundle_revision": 1,
+    "canonical_metrics": [
+      {
+        "as_of": "2026-10-24T16:00:00Z",
+        "calculation_version": "provider-normalization-v1",
+        "metric_id": "consensus_eps",
+        "missing_reason": null,
+        "period": "2026Q3",
+        "provenance_ids": [
+          "finnhub-calendar"
+        ],
+        "scope": "pre_event",
+        "unit": "USD_PER_SHARE",
+        "value": "2.001"
+      }
+    ],
+    "content_sha256": "7f9739dbf9b7833cf5e846f96ee4d42710f39c62e386a06100b01179cd0d8c94",
+    "event_id": "DEMO:2026-10-29:2026Q3",
+    "evidence": [
+      {
+        "available_at": "2026-10-24T16:00:00Z",
+        "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "evidence_kind": "historical_context",
+        "passage_id": "executive-summary",
+        "provenance_ref": "demo-context-2026-07-30",
+        "retention_status": "summary_only",
+        "rights_status": "summary_permitted",
+        "source_id": "eventlens-context-card:demo-context-2026-07-30",
+        "text": null,
+        "typed_summary": "Prior event evidence highlights cloud demand and capital intensity."
+      }
+    ],
+    "forbidden_behaviors": [
+      "change canonical metrics",
+      "use post-cutoff evidence"
+    ],
+    "historical_context": [],
+    "information_cutoff_at": "2026-10-24T16:00:00Z",
+    "instructions": [],
+    "missingness": [
+      "provider-native news sentiment unavailable"
+    ],
+    "research_question": "Prepare Example Systems earnings research.",
+    "route": "external",
+    "schema_version": "1.0",
+    "session_id": "fixture-external-agent-v1",
+    "target_release_at": "2026-10-29T20:00:00Z",
+    "target_release_status": "assumed_after_market_close",
+    "ticker": "DEMO",
+    "unavailable_stages": [
+      "company-specific valuation"
+    ],
+    "warnings": []
+  },
+  "invalid_reports": {
+    "bad_action": {
+      "expected_code": "schema_invalid",
+      "report": {
+        "abstention": null,
+        "bundle_id": "fixture-demo-2026q3-r1",
+        "bundle_revision": 1,
+        "bundle_sha256": "7f9739dbf9b7833cf5e846f96ee4d42710f39c62e386a06100b01179cd0d8c94",
+        "claims": [
+          {
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "claim_id": "fixture-claim-1",
+            "confidence": "0.60",
+            "kind": "interpretation",
+            "text": "The supplied evidence identifies a material pre-event debate."
+          }
+        ],
+        "event_id": "DEMO:2026-10-29:2026Q3",
+        "generated_at": "2026-10-24T16:00:00Z",
+        "reaction_forecast": null,
+        "recommendation": {
+          "action": "TRADE_NOW",
+          "conditions_to_change": [
+            "validated material evidence changes"
+          ],
+          "contradicting_evidence_ids": [],
+          "conviction": "0.50",
+          "counter_thesis": "Additional evidence could change the balance.",
+          "invalidations": [],
+          "missing_evidence": [
+            "company-specific valuation"
+          ],
+          "supporting_evidence_ids": [
+            "eventlens-context-card:demo-context-2026-07-30#executive-summary"
+          ],
+          "thesis": "The fixture evidence is balanced."
+        },
+        "report_id": "fixture-7f9739dbf9b7833c",
+        "scenarios": [
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.25",
+            "scenario_id": "bull",
+            "thesis": "The cited debate resolves positively."
+          },
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.50",
+            "scenario_id": "base",
+            "thesis": "The cited debate remains balanced."
+          },
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.25",
+            "scenario_id": "bear",
+            "thesis": "The cited debate resolves negatively."
+          }
+        ],
+        "schema_version": "1.0",
+        "session_id": "fixture-external-agent-v1",
+        "usage": {
+          "completed_at": "2026-10-24T16:00:00Z",
+          "input_tokens": 0,
+          "model": "external-agent-fixture-v1",
+          "output_tokens": 0,
+          "prompt_version": "external-agent-fixture-v1",
+          "provider": "fixture",
+          "started_at": "2026-10-24T16:00:00Z"
+        },
+        "valuation_zones": [],
+        "warnings": [
+          "deterministic fixture output; not a live model result"
+        ]
+      }
+    },
+    "bad_probability": {
+      "expected_code": "schema_invalid",
+      "report": {
+        "abstention": null,
+        "bundle_id": "fixture-demo-2026q3-r1",
+        "bundle_revision": 1,
+        "bundle_sha256": "7f9739dbf9b7833cf5e846f96ee4d42710f39c62e386a06100b01179cd0d8c94",
+        "claims": [
+          {
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "claim_id": "fixture-claim-1",
+            "confidence": "0.60",
+            "kind": "interpretation",
+            "text": "The supplied evidence identifies a material pre-event debate."
+          }
+        ],
+        "event_id": "DEMO:2026-10-29:2026Q3",
+        "generated_at": "2026-10-24T16:00:00Z",
+        "reaction_forecast": null,
+        "recommendation": {
+          "action": "HOLD",
+          "conditions_to_change": [
+            "validated material evidence changes"
+          ],
+          "contradicting_evidence_ids": [],
+          "conviction": "0.50",
+          "counter_thesis": "Additional evidence could change the balance.",
+          "invalidations": [],
+          "missing_evidence": [
+            "company-specific valuation"
+          ],
+          "supporting_evidence_ids": [
+            "eventlens-context-card:demo-context-2026-07-30#executive-summary"
+          ],
+          "thesis": "The fixture evidence is balanced."
+        },
+        "report_id": "fixture-7f9739dbf9b7833c",
+        "scenarios": [
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.90",
+            "scenario_id": "bull",
+            "thesis": "The cited debate resolves positively."
+          },
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.50",
+            "scenario_id": "base",
+            "thesis": "The cited debate remains balanced."
+          },
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.25",
+            "scenario_id": "bear",
+            "thesis": "The cited debate resolves negatively."
+          }
+        ],
+        "schema_version": "1.0",
+        "session_id": "fixture-external-agent-v1",
+        "usage": {
+          "completed_at": "2026-10-24T16:00:00Z",
+          "input_tokens": 0,
+          "model": "external-agent-fixture-v1",
+          "output_tokens": 0,
+          "prompt_version": "external-agent-fixture-v1",
+          "provider": "fixture",
+          "started_at": "2026-10-24T16:00:00Z"
+        },
+        "valuation_zones": [],
+        "warnings": [
+          "deterministic fixture output; not a live model result"
+        ]
+      }
+    },
+    "duplicate_claim_id": {
+      "expected_code": "schema_invalid",
+      "report": {
+        "abstention": null,
+        "bundle_id": "fixture-demo-2026q3-r1",
+        "bundle_revision": 1,
+        "bundle_sha256": "7f9739dbf9b7833cf5e846f96ee4d42710f39c62e386a06100b01179cd0d8c94",
+        "claims": [
+          {
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "claim_id": "fixture-claim-1",
+            "confidence": "0.60",
+            "kind": "interpretation",
+            "text": "The supplied evidence identifies a material pre-event debate."
+          },
+          {
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "claim_id": "fixture-claim-1",
+            "confidence": "0.60",
+            "kind": "interpretation",
+            "text": "The supplied evidence identifies a material pre-event debate."
+          }
+        ],
+        "event_id": "DEMO:2026-10-29:2026Q3",
+        "generated_at": "2026-10-24T16:00:00Z",
+        "reaction_forecast": null,
+        "recommendation": {
+          "action": "HOLD",
+          "conditions_to_change": [
+            "validated material evidence changes"
+          ],
+          "contradicting_evidence_ids": [],
+          "conviction": "0.50",
+          "counter_thesis": "Additional evidence could change the balance.",
+          "invalidations": [],
+          "missing_evidence": [
+            "company-specific valuation"
+          ],
+          "supporting_evidence_ids": [
+            "eventlens-context-card:demo-context-2026-07-30#executive-summary"
+          ],
+          "thesis": "The fixture evidence is balanced."
+        },
+        "report_id": "fixture-7f9739dbf9b7833c",
+        "scenarios": [
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.25",
+            "scenario_id": "bull",
+            "thesis": "The cited debate resolves positively."
+          },
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.50",
+            "scenario_id": "base",
+            "thesis": "The cited debate remains balanced."
+          },
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.25",
+            "scenario_id": "bear",
+            "thesis": "The cited debate resolves negatively."
+          }
+        ],
+        "schema_version": "1.0",
+        "session_id": "fixture-external-agent-v1",
+        "usage": {
+          "completed_at": "2026-10-24T16:00:00Z",
+          "input_tokens": 0,
+          "model": "external-agent-fixture-v1",
+          "output_tokens": 0,
+          "prompt_version": "external-agent-fixture-v1",
+          "provider": "fixture",
+          "started_at": "2026-10-24T16:00:00Z"
+        },
+        "valuation_zones": [],
+        "warnings": [
+          "deterministic fixture output; not a live model result"
+        ]
+      }
+    },
+    "stale_checksum": {
+      "expected_code": "binding_mismatch",
+      "report": {
+        "abstention": null,
+        "bundle_id": "fixture-demo-2026q3-r1",
+        "bundle_revision": 1,
+        "bundle_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "claims": [
+          {
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "claim_id": "fixture-claim-1",
+            "confidence": "0.60",
+            "kind": "interpretation",
+            "text": "The supplied evidence identifies a material pre-event debate."
+          }
+        ],
+        "event_id": "DEMO:2026-10-29:2026Q3",
+        "generated_at": "2026-10-24T16:00:00Z",
+        "reaction_forecast": null,
+        "recommendation": {
+          "action": "HOLD",
+          "conditions_to_change": [
+            "validated material evidence changes"
+          ],
+          "contradicting_evidence_ids": [],
+          "conviction": "0.50",
+          "counter_thesis": "Additional evidence could change the balance.",
+          "invalidations": [],
+          "missing_evidence": [
+            "company-specific valuation"
+          ],
+          "supporting_evidence_ids": [
+            "eventlens-context-card:demo-context-2026-07-30#executive-summary"
+          ],
+          "thesis": "The fixture evidence is balanced."
+        },
+        "report_id": "fixture-7f9739dbf9b7833c",
+        "scenarios": [
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.25",
+            "scenario_id": "bull",
+            "thesis": "The cited debate resolves positively."
+          },
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.50",
+            "scenario_id": "base",
+            "thesis": "The cited debate remains balanced."
+          },
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.25",
+            "scenario_id": "bear",
+            "thesis": "The cited debate resolves negatively."
+          }
+        ],
+        "schema_version": "1.0",
+        "session_id": "fixture-external-agent-v1",
+        "usage": {
+          "completed_at": "2026-10-24T16:00:00Z",
+          "input_tokens": 0,
+          "model": "external-agent-fixture-v1",
+          "output_tokens": 0,
+          "prompt_version": "external-agent-fixture-v1",
+          "provider": "fixture",
+          "started_at": "2026-10-24T16:00:00Z"
+        },
+        "valuation_zones": [],
+        "warnings": [
+          "deterministic fixture output; not a live model result"
+        ]
+      }
+    },
+    "unknown_citation": {
+      "expected_code": "unknown_citation",
+      "report": {
+        "abstention": null,
+        "bundle_id": "fixture-demo-2026q3-r1",
+        "bundle_revision": 1,
+        "bundle_sha256": "7f9739dbf9b7833cf5e846f96ee4d42710f39c62e386a06100b01179cd0d8c94",
+        "claims": [
+          {
+            "citations": [
+              {
+                "passage_id": "missing",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "claim_id": "fixture-claim-1",
+            "confidence": "0.60",
+            "kind": "interpretation",
+            "text": "The supplied evidence identifies a material pre-event debate."
+          }
+        ],
+        "event_id": "DEMO:2026-10-29:2026Q3",
+        "generated_at": "2026-10-24T16:00:00Z",
+        "reaction_forecast": null,
+        "recommendation": {
+          "action": "HOLD",
+          "conditions_to_change": [
+            "validated material evidence changes"
+          ],
+          "contradicting_evidence_ids": [],
+          "conviction": "0.50",
+          "counter_thesis": "Additional evidence could change the balance.",
+          "invalidations": [],
+          "missing_evidence": [
+            "company-specific valuation"
+          ],
+          "supporting_evidence_ids": [
+            "eventlens-context-card:demo-context-2026-07-30#executive-summary"
+          ],
+          "thesis": "The fixture evidence is balanced."
+        },
+        "report_id": "fixture-7f9739dbf9b7833c",
+        "scenarios": [
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.25",
+            "scenario_id": "bull",
+            "thesis": "The cited debate resolves positively."
+          },
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.50",
+            "scenario_id": "base",
+            "thesis": "The cited debate remains balanced."
+          },
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.25",
+            "scenario_id": "bear",
+            "thesis": "The cited debate resolves negatively."
+          }
+        ],
+        "schema_version": "1.0",
+        "session_id": "fixture-external-agent-v1",
+        "usage": {
+          "completed_at": "2026-10-24T16:00:00Z",
+          "input_tokens": 0,
+          "model": "external-agent-fixture-v1",
+          "output_tokens": 0,
+          "prompt_version": "external-agent-fixture-v1",
+          "provider": "fixture",
+          "started_at": "2026-10-24T16:00:00Z"
+        },
+        "valuation_zones": [],
+        "warnings": [
+          "deterministic fixture output; not a live model result"
+        ]
+      }
+    },
+    "unknown_metric": {
+      "expected_code": "unknown_metric",
+      "report": {
+        "abstention": null,
+        "bundle_id": "fixture-demo-2026q3-r1",
+        "bundle_revision": 1,
+        "bundle_sha256": "7f9739dbf9b7833cf5e846f96ee4d42710f39c62e386a06100b01179cd0d8c94",
+        "claims": [
+          {
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "claim_id": "fixture-claim-1",
+            "confidence": "0.60",
+            "kind": "interpretation",
+            "text": "The supplied evidence identifies a material pre-event debate."
+          }
+        ],
+        "event_id": "DEMO:2026-10-29:2026Q3",
+        "generated_at": "2026-10-24T16:00:00Z",
+        "reaction_forecast": null,
+        "recommendation": {
+          "action": "HOLD",
+          "conditions_to_change": [
+            "validated material evidence changes"
+          ],
+          "contradicting_evidence_ids": [],
+          "conviction": "0.50",
+          "counter_thesis": "Additional evidence could change the balance.",
+          "invalidations": [],
+          "missing_evidence": [
+            "company-specific valuation"
+          ],
+          "supporting_evidence_ids": [
+            "eventlens-context-card:demo-context-2026-07-30#executive-summary"
+          ],
+          "thesis": "The fixture evidence is balanced."
+        },
+        "report_id": "fixture-7f9739dbf9b7833c",
+        "scenarios": [
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "invented_metric"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.25",
+            "scenario_id": "bull",
+            "thesis": "The cited debate resolves positively."
+          },
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.50",
+            "scenario_id": "base",
+            "thesis": "The cited debate remains balanced."
+          },
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.25",
+            "scenario_id": "bear",
+            "thesis": "The cited debate resolves negatively."
+          }
+        ],
+        "schema_version": "1.0",
+        "session_id": "fixture-external-agent-v1",
+        "usage": {
+          "completed_at": "2026-10-24T16:00:00Z",
+          "input_tokens": 0,
+          "model": "external-agent-fixture-v1",
+          "output_tokens": 0,
+          "prompt_version": "external-agent-fixture-v1",
+          "provider": "fixture",
+          "started_at": "2026-10-24T16:00:00Z"
+        },
+        "valuation_zones": [],
+        "warnings": [
+          "deterministic fixture output; not a live model result"
+        ]
+      }
+    },
+    "unsupported_zone": {
+      "expected_code": "schema_invalid",
+      "report": {
+        "abstention": null,
+        "bundle_id": "fixture-demo-2026q3-r1",
+        "bundle_revision": 1,
+        "bundle_sha256": "7f9739dbf9b7833cf5e846f96ee4d42710f39c62e386a06100b01179cd0d8c94",
+        "claims": [
+          {
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "claim_id": "fixture-claim-1",
+            "confidence": "0.60",
+            "kind": "interpretation",
+            "text": "The supplied evidence identifies a material pre-event debate."
+          }
+        ],
+        "event_id": "DEMO:2026-10-29:2026Q3",
+        "generated_at": "2026-10-24T16:00:00Z",
+        "reaction_forecast": null,
+        "recommendation": {
+          "action": "HOLD",
+          "conditions_to_change": [
+            "validated material evidence changes"
+          ],
+          "contradicting_evidence_ids": [],
+          "conviction": "0.50",
+          "counter_thesis": "Additional evidence could change the balance.",
+          "invalidations": [],
+          "missing_evidence": [
+            "company-specific valuation"
+          ],
+          "supporting_evidence_ids": [
+            "eventlens-context-card:demo-context-2026-07-30#executive-summary"
+          ],
+          "thesis": "The fixture evidence is balanced."
+        },
+        "report_id": "fixture-7f9739dbf9b7833c",
+        "scenarios": [
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.25",
+            "scenario_id": "bull",
+            "thesis": "The cited debate resolves positively."
+          },
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.50",
+            "scenario_id": "base",
+            "thesis": "The cited debate remains balanced."
+          },
+          {
+            "assumptions": [],
+            "canonical_metric_ids": [
+              "consensus_eps"
+            ],
+            "citations": [
+              {
+                "passage_id": "executive-summary",
+                "source_id": "eventlens-context-card:demo-context-2026-07-30"
+              }
+            ],
+            "probability": "0.25",
+            "scenario_id": "bear",
+            "thesis": "The cited debate resolves negatively."
+          }
+        ],
+        "schema_version": "1.0",
+        "session_id": "fixture-external-agent-v1",
+        "usage": {
+          "completed_at": "2026-10-24T16:00:00Z",
+          "input_tokens": 0,
+          "model": "external-agent-fixture-v1",
+          "output_tokens": 0,
+          "prompt_version": "external-agent-fixture-v1",
+          "provider": "fixture",
+          "started_at": "2026-10-24T16:00:00Z"
+        },
+        "valuation_zones": [
+          {
+            "assumption_refs": [],
+            "basis": "none",
+            "calculation_refs": [],
+            "citations": [],
+            "currency": "USD",
+            "lower": "100",
+            "method": "unknown",
+            "metric_refs": [],
+            "upper": "200",
+            "zone_id": "unsupported"
+          }
+        ],
+        "warnings": [
+          "deterministic fixture output; not a live model result"
+        ]
+      }
+    }
+  },
+  "schema_version": "1.0",
+  "valid_report": {
+    "abstention": null,
+    "bundle_id": "fixture-demo-2026q3-r1",
+    "bundle_revision": 1,
+    "bundle_sha256": "7f9739dbf9b7833cf5e846f96ee4d42710f39c62e386a06100b01179cd0d8c94",
+    "claims": [
+      {
+        "citations": [
+          {
+            "passage_id": "executive-summary",
+            "source_id": "eventlens-context-card:demo-context-2026-07-30"
+          }
+        ],
+        "claim_id": "fixture-claim-1",
+        "confidence": "0.60",
+        "kind": "interpretation",
+        "text": "The supplied evidence identifies a material pre-event debate."
+      }
+    ],
+    "event_id": "DEMO:2026-10-29:2026Q3",
+    "generated_at": "2026-10-24T16:00:00Z",
+    "reaction_forecast": null,
+    "recommendation": {
+      "action": "HOLD",
+      "conditions_to_change": [
+        "validated material evidence changes"
+      ],
+      "contradicting_evidence_ids": [],
+      "conviction": "0.50",
+      "counter_thesis": "Additional evidence could change the balance.",
+      "invalidations": [],
+      "missing_evidence": [
+        "company-specific valuation"
+      ],
+      "supporting_evidence_ids": [
+        "eventlens-context-card:demo-context-2026-07-30#executive-summary"
+      ],
+      "thesis": "The fixture evidence is balanced."
+    },
+    "report_id": "fixture-7f9739dbf9b7833c",
+    "scenarios": [
+      {
+        "assumptions": [],
+        "canonical_metric_ids": [
+          "consensus_eps"
+        ],
+        "citations": [
+          {
+            "passage_id": "executive-summary",
+            "source_id": "eventlens-context-card:demo-context-2026-07-30"
+          }
+        ],
+        "probability": "0.25",
+        "scenario_id": "bull",
+        "thesis": "The cited debate resolves positively."
+      },
+      {
+        "assumptions": [],
+        "canonical_metric_ids": [
+          "consensus_eps"
+        ],
+        "citations": [
+          {
+            "passage_id": "executive-summary",
+            "source_id": "eventlens-context-card:demo-context-2026-07-30"
+          }
+        ],
+        "probability": "0.50",
+        "scenario_id": "base",
+        "thesis": "The cited debate remains balanced."
+      },
+      {
+        "assumptions": [],
+        "canonical_metric_ids": [
+          "consensus_eps"
+        ],
+        "citations": [
+          {
+            "passage_id": "executive-summary",
+            "source_id": "eventlens-context-card:demo-context-2026-07-30"
+          }
+        ],
+        "probability": "0.25",
+        "scenario_id": "bear",
+        "thesis": "The cited debate resolves negatively."
+      }
+    ],
+    "schema_version": "1.0",
+    "session_id": "fixture-external-agent-v1",
+    "usage": {
+      "completed_at": "2026-10-24T16:00:00Z",
+      "input_tokens": 0,
+      "model": "external-agent-fixture-v1",
+      "output_tokens": 0,
+      "prompt_version": "external-agent-fixture-v1",
+      "provider": "fixture",
+      "started_at": "2026-10-24T16:00:00Z"
+    },
+    "valuation_zones": [],
+    "warnings": [
+      "deterministic fixture output; not a live model result"
+    ]
+  }
+}

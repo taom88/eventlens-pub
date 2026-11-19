@@ -1,0 +1,322 @@
+{
+  "case_counts": {
+    "critical_failures": 0,
+    "matched": 17,
+    "total": 17
+  },
+  "case_results": [
+    {
+      "case_id": "bad_citation",
+      "case_sha256": "0af281d74170df493c0686913497fb32a3fa2844ae1f28f99806a166a6e342ce",
+      "critical": true,
+      "detail": "classified claim citation must reference a selected passage",
+      "expected_reason_codes": [
+        "unresolved_citation"
+      ],
+      "expected_status": "blocked",
+      "matched_expected": true,
+      "observed_reason_codes": [
+        "unresolved_citation"
+      ],
+      "observed_status": "blocked"
+    },
+    {
+      "case_id": "complete_projection",
+      "case_sha256": "88e40b818453466e1b8ccbddda1122381d899cef1ce28003616faa930e768d86",
+      "critical": true,
+      "detail": "production contracts accepted the valid case",
+      "expected_reason_codes": [
+        "all_components_projected",
+        "citations_resolved",
+        "network_calls_zero",
+        "projection_deterministic"
+      ],
+      "expected_status": "pass",
+      "matched_expected": true,
+      "observed_reason_codes": [
+        "all_components_projected",
+        "citations_resolved",
+        "network_calls_zero",
+        "projection_deterministic"
+      ],
+      "observed_status": "pass"
+    },
+    {
+      "case_id": "history_authorization_late",
+      "case_sha256": "7aba7d16d812b8baaf67ac106b91bf5b87fd1a890f446d7fe79bd49f5da1698f",
+      "critical": true,
+      "detail": "newly-covered issuer approval must precede information cutoff",
+      "expected_reason_codes": [
+        "history_authorization_late"
+      ],
+      "expected_status": "blocked",
+      "matched_expected": true,
+      "observed_reason_codes": [
+        "history_authorization_late"
+      ],
+      "observed_status": "blocked"
+    },
+    {
+      "case_id": "history_authorization_missing",
+      "case_sha256": "be3bfc8bec81cf17c12ad61605a0b26f0b2bef9046f66d9f4440a66eab447b1b",
+      "critical": true,
+      "detail": "insufficient_history requires explicit newly-covered issuer eligibility",
+      "expected_reason_codes": [
+        "history_authorization_missing"
+      ],
+      "expected_status": "blocked",
+      "matched_expected": true,
+      "observed_reason_codes": [
+        "history_authorization_missing"
+      ],
+      "observed_status": "blocked"
+    },
+    {
+      "case_id": "history_authorization_ticker_mismatch",
+      "case_sha256": "66c7946d9096db00a3c12fbaffad4a345647250c9154a942c123af2542d8de71",
+      "critical": true,
+      "detail": "newly-covered issuer eligibility ticker must match target",
+      "expected_reason_codes": [
+        "history_authorization_ticker_mismatch"
+      ],
+      "expected_status": "blocked",
+      "matched_expected": true,
+      "observed_reason_codes": [
+        "history_authorization_ticker_mismatch"
+      ],
+      "observed_status": "blocked"
+    },
+    {
+      "case_id": "history_draft_card",
+      "case_sha256": "7d7772295b11bc169f56a76d0bb251e11143d87b37611c7f63ed0fb05f08c7b2",
+      "critical": true,
+      "detail": "prior context cards must be approved",
+      "expected_reason_codes": [
+        "history_card_not_approved"
+      ],
+      "expected_status": "blocked",
+      "matched_expected": true,
+      "observed_reason_codes": [
+        "history_card_not_approved"
+      ],
+      "observed_status": "blocked"
+    },
+    {
+      "case_id": "history_exception_with_three_cards",
+      "case_sha256": "323157abc26324bd94e8987fae266f8f2c0413461f1d9e4336c75166cc03139d",
+      "critical": true,
+      "detail": "newly-covered issuer eligibility is invalid with three prior cards",
+      "expected_reason_codes": [
+        "history_exception_with_three_cards"
+      ],
+      "expected_status": "blocked",
+      "matched_expected": true,
+      "observed_reason_codes": [
+        "history_exception_with_three_cards"
+      ],
+      "observed_status": "blocked"
+    },
+    {
+      "case_id": "history_future_card",
+      "case_sha256": "50d0cd14a4a7835a5ceff888ddec704a71b3ccfb107507ecdfc60f4a0cd6810c",
+      "critical": true,
+      "detail": "prior-card event date must precede the target event date",
+      "expected_reason_codes": [
+        "history_future_event"
+      ],
+      "expected_status": "blocked",
+      "matched_expected": true,
+      "observed_reason_codes": [
+        "history_future_event"
+      ],
+      "observed_status": "blocked"
+    },
+    {
+      "case_id": "history_three_approved",
+      "case_sha256": "faa42a394db33ceee3100985e1eb582d665391e9072e3f828b8c1ae8e3917432",
+      "critical": true,
+      "detail": "production contracts accepted the valid case",
+      "expected_reason_codes": [
+        "three_approved_history_valid"
+      ],
+      "expected_status": "pass",
+      "matched_expected": true,
+      "observed_reason_codes": [
+        "three_approved_history_valid"
+      ],
+      "observed_status": "pass"
+    },
+    {
+      "case_id": "historical_checksum_mutation",
+      "case_sha256": "d91b5babf3f7aef1f33ce2303f709facdf5e1159b7859330b6f91e281f8cdda9",
+      "critical": true,
+      "detail": "analytics component checksums do not match validated artifacts",
+      "expected_reason_codes": [
+        "historical_checksum_mismatch"
+      ],
+      "expected_status": "blocked",
+      "matched_expected": true,
+      "observed_reason_codes": [
+        "historical_checksum_mismatch"
+      ],
+      "observed_status": "blocked"
+    },
+    {
+      "case_id": "identity_cutoff_mismatch",
+      "case_sha256": "8bf25fe3177d7810e7994ff8bbfa7dbfbf3b002184b9468ebe55be98db8a14e2",
+      "critical": true,
+      "detail": "company context ticker and cutoff must match the target bundle",
+      "expected_reason_codes": [
+        "company_context_identity_mismatch"
+      ],
+      "expected_status": "blocked",
+      "matched_expected": true,
+      "observed_reason_codes": [
+        "company_context_identity_mismatch"
+      ],
+      "observed_status": "blocked"
+    },
+    {
+      "case_id": "identity_ticker_mismatch",
+      "case_sha256": "27213dc025a426ebde25d80a50b3913989076e4aaa2e719d29476c77eafe9240",
+      "critical": true,
+      "detail": "company context ticker and cutoff must match the target bundle",
+      "expected_reason_codes": [
+        "company_context_identity_mismatch"
+      ],
+      "expected_status": "blocked",
+      "matched_expected": true,
+      "observed_reason_codes": [
+        "company_context_identity_mismatch"
+      ],
+      "observed_status": "blocked"
+    },
+    {
+      "case_id": "late_evidence",
+      "case_sha256": "c3189528d075ed30c3f047b39b13f572b15c53ef9c0b404533fa089469fd6285",
+      "critical": true,
+      "detail": "evidence receipts must be strictly before the information cutoff",
+      "expected_reason_codes": [
+        "late_evidence"
+      ],
+      "expected_status": "blocked",
+      "matched_expected": true,
+      "observed_reason_codes": [
+        "late_evidence"
+      ],
+      "observed_status": "blocked"
+    },
+    {
+      "case_id": "legacy_v1",
+      "case_sha256": "4e608c2c4e6c305e2e3fbb866153d87128dce1fb4ee7d35317f3df38b920463a",
+      "critical": true,
+      "detail": "production contracts accepted the valid case",
+      "expected_reason_codes": [
+        "legacy_checksum_verified",
+        "legacy_v1_rejected_for_synthesis"
+      ],
+      "expected_status": "pass",
+      "matched_expected": true,
+      "observed_reason_codes": [
+        "legacy_checksum_verified",
+        "legacy_v1_rejected_for_synthesis"
+      ],
+      "observed_status": "pass"
+    },
+    {
+      "case_id": "mutated_bundle_checksum",
+      "case_sha256": "9e208a21367535d204d5241ef99d2e186757a28d18941da7bf3364d7e3f210b8",
+      "critical": true,
+      "detail": "bundle_sha256 does not match research evidence bundle",
+      "expected_reason_codes": [
+        "bundle_checksum_mismatch"
+      ],
+      "expected_status": "blocked",
+      "matched_expected": true,
+      "observed_reason_codes": [
+        "bundle_checksum_mismatch"
+      ],
+      "observed_status": "blocked"
+    },
+    {
+      "case_id": "newly_covered_valid",
+      "case_sha256": "78a5e04240257ed348552c2d76045a969a92ddccac1d11750ba275abfc81d2b1",
+      "critical": true,
+      "detail": "production contracts accepted the valid case",
+      "expected_reason_codes": [
+        "newly_covered_exception_valid"
+      ],
+      "expected_status": "pass",
+      "matched_expected": true,
+      "observed_reason_codes": [
+        "newly_covered_exception_valid"
+      ],
+      "observed_status": "pass"
+    },
+    {
+      "case_id": "rights_degraded",
+      "case_sha256": "e6c7ab70e4d0cbe348bb7d30f155c9ca0aaaa06ef834f72deea19dd5d59b7c9b",
+      "critical": true,
+      "detail": "production contracts accepted the valid case",
+      "expected_reason_codes": [
+        "headline_only_not_content_scored",
+        "summary_only_citations_resolve"
+      ],
+      "expected_status": "pass",
+      "matched_expected": true,
+      "observed_reason_codes": [
+        "headline_only_not_content_scored",
+        "summary_only_citations_resolve"
+      ],
+      "observed_status": "pass"
+    }
+  ],
+  "content_sha256": "4fc3622669569636d7492ea4ca94e24760aaad2e99e36b99c84a541e2e75bbae",
+  "evaluated_at": "2026-11-08T06:20:32Z",
+  "evaluator_source": {
+    "files": [
+      {
+        "path": "tests/agents/test_news.py",
+        "sha256": "660f5bd92952747eeb3d12edd5d92425d263b84c475187439c33c35a91c3d414"
+      },
+      {
+        "path": "tests/context_cards/test_schema.py",
+        "sha256": "d92fcf8ce00c17ab5cb081522878f1d02517844742f697e476df4d76b0fa3b69"
+      },
+      {
+        "path": "tests/evals/test_research_evidence_e0.py",
+        "sha256": "2629cf2e7a3b50809ea8e66104e1f085144c59007748ed520d349d2b8414e274"
+      },
+      {
+        "path": "tests/product/test_research_evidence.py",
+        "sha256": "6db2ba883eadb3efb3f695d9a795e6b7e1d1ef3a497af60d3eeb68c642db7c21"
+      },
+      {
+        "path": "tests/product/test_synthesis_input.py",
+        "sha256": "f89db5a613547583d59bcceeb520512eb9e6e9699648627d600eabbb728713bc"
+      }
+    ],
+    "sha256": "846e3d5acb8ae84d546940c13619da6d5021381d97d65f2b647a5f6e990505fd"
+  },
+  "evaluator_version": "eventlens-e0-research-evidence-v1",
+  "execution": {
+    "cache_state": "not_used",
+    "command": ".venv/bin/python -m pytest -q tests/evals/test_research_evidence_e0.py -k 'not retained'",
+    "model_calls": 0,
+    "provider_calls": 0,
+    "reported_cost_usd": "0.00",
+    "runtime_seconds": "1.63"
+  },
+  "execution_base_commit": "0000000000000000000000000000000000000000",
+  "limitations": [
+    "E0 uses compact synthetic, rights-safe fixtures and does not make a live-provider claim.",
+    "The result covers MVP-401 bundle, projection, compatibility, citation, cutoff, identity, rights, and history gates only.",
+    "Later synthesis, policy, packet QA, journey, and public-release evaluations remain assigned to E1 through E4."
+  ],
+  "production_boundary_commit": "0000000000000000000000000000000000000000",
+  "result_id": "mvp401-research-evidence-e0-2026-11-08",
+  "schema_version": "eventlens.external-ready-e0-result.v1",
+  "status": "pass",
+  "suite_id": "mvp401-research-evidence-e0-v1",
+  "suite_sha256": "75adcaaf4de89dd0f3371e20b4c59271cc461a6117c1011dc23d81453a6479c8"
+}
