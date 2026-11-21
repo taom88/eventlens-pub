@@ -59,6 +59,8 @@ Read these in order:
    what they mean for users and contributors.
 3. [Implementation status](implementation-status.md) — supported path,
    separate live steps, and unfinished lifecycle stages.
+4. [Decision records](../decisions/README.md) — what the numbered records
+   capture, how their statuses work, and when they may be historical.
 
 ### If you want to understand or change the code
 

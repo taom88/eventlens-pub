@@ -3,9 +3,15 @@
 ## Repository and package contents
 
 The repository and published package contain software, schemas, documentation,
-and synthetic demonstration fixtures. They do not provide live market data,
-issuer documents, news articles, transcripts, research reports, customer
-artifacts, API keys, or a shared Supabase dataset.
+and synthetic demonstration fixtures. The repository also contains one
+curated public-source case study at
+`docs/examples/nvda-fy2027-q3-pre-earnings-brief.md`. It consists of concise
+paraphrases of linked NVIDIA investor disclosures and an SEC filing; it does
+not include source-document text, provider output, third-party market-price
+series, news articles, transcripts, customer artifacts, API keys, or a shared
+Supabase dataset. The case study is retrospective and is not a validated live
+research run. It contains a non-personal, historical directional analysis but
+no formal Buy/Sell/Hold rating, position sizing, or order instruction.
 
 ## Operator responsibilities
 

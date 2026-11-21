@@ -45,7 +45,7 @@ the supported public API. Confirm imports and tests before extending a boundary.
 | `fixtures/d0/demo/` | Synthetic end-to-end fixture used by the public `eventlens demo` path |
 | `fixtures/evals/` | Controlled evaluator and quality-check examples; see fixture metadata before making quality claims |
 | `docs/guide/` | First-time orientation, product model, decision rationale, status, and repository map |
-| `docs/decisions/` | Selected architecture and contract records; some records are explicitly legacy or partially superseded |
+| [`docs/decisions/`](../decisions/README.md) | Selected architecture and contract decision records: rationale and design history, not a feature list or roadmap; some are legacy or partially superseded |
 | `docs/evaluations/` | Evaluation rubrics and example score/evidence records |
 | `docs/public-release/` | Preview scope, live setup, dependency-license evidence, and snapshot acceptance record |
 | `docs/` | Operator, architecture, storage, provider, evaluation, and interface documentation |

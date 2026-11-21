@@ -1,9 +1,18 @@
 # Public source preview
 
 This is a source preview of EventLens, an alpha research workflow. It is useful
-for inspecting the architecture and running the bundled synthetic demo. It is not
-a completed production research service, and the repository does not publish
-investment recommendations.
+for inspecting the architecture and running the bundled synthetic demo. It is
+not a completed production research service and does not provide personalized
+investment advice or trading instructions.
+
+The repository also includes one curated, paraphrased public-source NVIDIA
+case study to illustrate the intended research-brief experience. It is a
+retrospective example, not a cutoff-validated live run; it omits provider data,
+market-price series, secondary-news content, transcripts, or a formal
+Buy/Sell/Hold rating. It includes a conditional historical directional read,
+not a current or personalized recommendation.
+See the [illustrative NVIDIA brief](../examples/nvda-fy2027-q3-pre-earnings-brief.md)
+and [data policy](../../DATA_POLICY.md).
 
 New readers can start with the [EventLens guide](../guide/README.md), which
 explains the product model, design decisions, current implementation boundary,

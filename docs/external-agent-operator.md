@@ -3,6 +3,13 @@
 This procedure lets any fresh agent analyze EventLens evidence without prior
 repository or conversation context.
 
+> **Version 1 compatibility note:** This procedure and its schema describe the
+> current legacy external-report contract. That schema has a fixed action
+> vocabulary for compatibility; it is not a default trading policy. A
+> publication-quality policy-governed recommendation workflow is not complete
+> in this preview. Treat any report as research for human review, and abstain
+> when no applicable operator policy supports a stance.
+
 ## Inputs
 
 Provide the agent only:
@@ -20,11 +27,13 @@ outcomes, unrestricted source bodies, or mutable local file paths.
 > exactly one JSON object matching `ExternalAgentReport` in the supplied schema.
 > Use only exported evidence and canonical metric IDs. Cite every material claim
 > with an exported `source_id` and `passage_id`. Keep facts, interpretation,
-> uncertainty, contradicting evidence, and missing evidence distinct. Propose a
-> research-only BUY, DONT_BUY, HOLD, TRIM, or SELL action only when supported;
-> otherwise abstain. Precise valuation zones require calculation or metric
-> references. Do not alter bundle facts, infer post-cutoff outcomes, provide
-> execution instructions, add schema fields, or return Markdown.
+> uncertainty, contradicting evidence, and missing evidence distinct. The v1
+> schema supports legacy research-only action labels; do not treat them as an
+> EventLens-owned policy or use them to generate an action without an applicable
+> operator policy. Otherwise abstain. Precise valuation zones require
+> calculation or metric references. Do not alter bundle facts, infer
+> post-cutoff outcomes, provide execution instructions, add schema fields, or
+> return Markdown.
 
 ## Run sequence
 

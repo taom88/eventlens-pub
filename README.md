@@ -1,17 +1,45 @@
 # EventLens
 
-**A cutoff-aware research workflow for understanding company events.**
+**Research and decision support for earnings events.**
 
-EventLens helps a researcher assemble a reviewable record around a scheduled
-company event—especially an earnings release. It brings historical context,
-source-backed evidence, deterministic calculations, and optional model
-interpretation into one reproducible workflow. It is designed to make clear
-what was known at a point in time, where each input came from, what the system
-calculated, and what is still uncertain.
+EventLens is intended to help an analyst get oriented before and after a
+company event—especially an earnings call—by bringing together the evidence
+that can shape the market's reaction. The product combines company and
+earnings context, news, prior-event history, market behavior, and quantitative
+reaction analysis. It keeps the qualitative case (what may matter and why)
+connected to quantitative evidence (what changed, by how much, and over what
+period), so an analyst can examine both supporting and opposing signals.
 
-EventLens is **research software**, not a broker, trading system, or finished
-investment product. It does not place or simulate trades. Its outputs require
-independent human review and are not investment advice.
+The broader product goal is a readable, cutoff-aware earnings brief: what is
+known, what is changing, how the stock has been behaving, what prior events
+can and cannot tell us, and which scenarios or risks deserve attention. Price
+momentum and trading velocity—the pace and participation behind a move—belong
+in that picture. A conditional, policy-governed trading stance may be useful
+when the workflow has the evidence and operator policy to support one; it
+should be explicit about uncertainty and abstain when it cannot support a
+stance.
+
+For a concrete example of the intended reader experience, see the
+[illustrative NVIDIA pre-earnings brief](docs/examples/nvda-fy2027-q3-pre-earnings-brief.md).
+It uses paraphrased public issuer and SEC facts, includes a historical
+directional read but no Buy/Sell/Hold rating, and clearly marks the market-data
+and live-run limits of the original example.
+
+This public repository is an alpha source preview of that system, not a
+finished end-to-end earnings brief generator. It currently includes
+cutoff-aware news signals, historical context cards, event-reaction and other
+deterministic calculations, and a technical projection with latest close and
+prior 5- and 20-session returns. Those return fields provide basic trend
+context; this preview does not implement a dedicated trading-velocity signal
+or a complete momentum methodology. Live collection, synthesis, review, and
+publication still require operator work. See [what works today](#what-works-todayand-the-boundary)
+and the [implementation status](docs/guide/implementation-status.md) for the
+precise boundary.
+
+EventLens is **research software**, not a broker or autonomous trading system.
+It does not place or simulate trades. Any proposed stance in an agent-authored
+report is conditional research output for independent human review, not
+personalized investment advice or an instruction to trade.
 
 Maintainer: [@taom88](https://github.com/taom88). For project questions and
 issues, use the GitHub issue tracker.
@@ -61,27 +89,108 @@ eventlens app
 
 For a guided five-minute tour, follow [the D0 fixture runbook](docs/demo-runbook.md).
 
+## How EventLens can inform an earnings decision
+
+Earnings reactions are shaped by more than whether reported results beat an
+estimate. Analysts may need to weigh the change in guidance, business
+fundamentals, new information in the news, expectations already reflected in
+the price, price momentum and participation, and how the stock behaved around
+comparable prior events. EventLens is being built to make those inputs
+inspectable together rather than collapse them into an unexplained score.
+
+| Research question | Evidence or analysis EventLens is designed to bring together |
+|---|---|
+| What is the event, and what information was available beforehand? | Event identity, a frozen information cutoff, source timestamps, and eligible prior-event context |
+| What changed in the company or its outlook? | Earnings and company evidence, consensus or management guidance when supplied, with provenance and missing fields visible |
+| What is the news saying, and how consistent is it? | Classified, cutoff-aware news signals, including tone, recency, relevance, breadth, topic mix, and conflicting coverage |
+| What has the market been doing into the event? | The current preview carries latest close and prior 5- and 20-session returns; fuller momentum and trading-velocity measures remain unfinished work |
+| What happened after comparable past events? | Deterministic event-reaction statistics with sample size, benchmark, horizon, and limitations where available |
+| What might the evidence imply? | A bounded qualitative synthesis can organize thesis, counter-thesis, scenarios, uncertainty, and cited evidence; an optional stance requires the applicable policy and review |
+
+The goal is a research aid that helps a person decide what deserves attention
+and what risks or conditions would change their view. The system should make
+the evidence and assumptions visible, including disagreement between the
+qualitative thesis and quantitative signals. Historical association is not
+causation, and a reaction statistic is not a forecast.
+
+### What the current preview actually runs
+
+The public synthetic demo is the most complete packaged journey, but it uses
+synthetic records and does not generate a live investment brief. The codebase
+also contains live-provider adapters, typed evidence assembly, cutoff
+validation, deterministic news aggregation, price-return features, historical
+context workflows, event studies, and an external-agent report boundary.
+These are building blocks with separate configuration and review steps; they
+are not yet one dependable, automated pipeline from ticker and earnings date
+to a publication-ready brief.
+
+The recommendation boundary is deliberately narrow. EventLens does not own a
+default action vocabulary or decide what a user should trade. The codebase
+retains a legacy version-1 agent-report schema with fixed action labels for
+compatibility; that is not a product default or proof of a complete
+recommendation workflow. New recommendation behavior should require a supplied,
+versioned operator policy, preserve the analysis, and abstain when no usable
+policy applies. That policy-governed path is not established as a complete
+end-to-end feature in this preview. See the
+[decision-record guide](docs/decisions/README.md) for context on these
+contracts.
+
 ## What EventLens does
 
-An event research run should preserve both its answer and the path used to
-reach it. At a high level, EventLens:
+EventLens is designed as the research and validation layer around an analyst's
+chosen AI agent. A user can fork the repository, configure their own data
+providers and credentials, and connect an agent or orchestration harness that
+can consume EventLens's typed handoff and return its versioned report format.
+The agent supplies the semantic analysis; EventLens prepares the evidence,
+owns deterministic calculations, and checks the returned report. In the
+default external-agent route, the operator carries the bundle to their chosen
+agent and imports its response. This is not yet a one-click, universal agent
+plug-in; the optional direct model route is separately configured.
 
-1. Establishes the target event and an explicit information cutoff.
-2. Checks that prior-event context and evidence were available before that
+The intended research-to-brief flow is:
+
+1. Establish the target event and an explicit information cutoff.
+2. Check that prior-event context and evidence were available before that
    cutoff and are eligible for the requested use.
-3. Keeps source receipts, missing fields, provenance, and checksums attached to
-   typed research inputs.
-4. Calculates canonical financial metrics in deterministic code, with their
-   units, periods, and limitations.
-5. Creates a versioned research session and exports a bounded, typed handoff
-   when model interpretation is requested.
-6. Validates a returned report against the original bundle before accepting it
-   into the session.
+3. Assemble a versioned research session from eligible company and earnings
+   evidence, news, market/technical inputs, and prior-event context when those
+   inputs are supplied; missing or unavailable evidence stays explicit.
+4. Keep source receipts, availability times, provenance, and checksums
+   attached to the typed inputs, and calculate canonical financial metrics
+   deterministically with units, periods, and limitations.
+5. Export an immutable, cutoff-bounded evidence bundle and report schema for
+   the selected agent or harness to interpret.
+6. Validate the agent's returned report against the original bundle before
+   accepting it into the session.
+7. Make the validated analysis available as a human-readable report: cited
+   claims, thesis and counter-thesis, scenarios, reaction forecast, optional
+   recommendation or abstention, valuation zones when supported, and explicit
+   uncertainty and warnings.
+
+The report is meant to give an analyst a useful, evidence-linked view of the
+event—not just a news summary or a bare buy/sell label. Which sections can be
+filled depends on the supplied evidence and the report's validated fields. A
+stance is conditional research output, not a trade instruction; without a
+usable operator policy, the system should preserve the analysis and abstain.
+The current public preview has the session, handoff, validation, and basic
+Markdown-rendering components, but it does not yet compose every live data
+source into a complete publication-ready brief automatically.
 
 The key separation is **evidence and facts first; interpretation second**.
 Provider data and model prose do not become canonical facts just because they
 appear in a report. The application validates their identity, timing,
 provenance, citations, and schema before using them.
+
+To use a separately operated agent, start with the
+[external-agent operator contract](docs/external-agent-operator.md), which
+describes the bundle, prompt, report schema, and explicit import. The
+versioned schema is at
+[`schemas/eventlens.external_agent.v1.schema.json`](schemas/eventlens.external_agent.v1.schema.json).
+The repo has reusable pieces for this handoff, but it does **not** yet have a
+complete, polished earnings-brief skill or template: `src/eventlens/agents/skills.py`
+contains prompt-level capabilities for EventLens's own interpreter, and
+`src/eventlens/agents/external_rendering.py` renders validated report fields
+into basic Markdown. Neither is a standalone, agent-agnostic brief package.
 
 ```mermaid
 flowchart TD
@@ -227,8 +336,12 @@ current non-vendored source/wheel boundary. They are engineering records, not
 legal clearance. A combined/container distribution needs a separate
 platform-specific dependency and notice review.
 
-The repository uses synthetic demonstration data. Provider data, news,
-transcripts, and other external content are governed by the operator’s rights
-and provider terms; EventLens provenance does not grant redistribution rights.
+The runnable demo uses synthetic data. The repository also includes one
+curated, paraphrased case study based on linked public issuer and SEC
+disclosures; it excludes provider receipts, third-party market-price series,
+news-aggregator material, transcript text, and Buy/Sell/Hold ratings. Provider
+data, news, transcripts, and other external content are governed by the
+operator’s rights and provider terms; EventLens provenance does not grant
+redistribution rights.
 Review the [data policy](DATA_POLICY.md), [privacy notice](PRIVACY.md),
 [security policy](SECURITY.md), and [disclaimer](DISCLAIMER.md) before use.
